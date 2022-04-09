@@ -11,7 +11,8 @@ function Nav() {
                     </a>
                 </Link>
                 
-
+                <input type="text" placeholder="Search items"></input>
+                
                 <nav id="navbar" class="navbar">
                     <ul>
                         <li>
