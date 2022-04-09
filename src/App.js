@@ -1,8 +1,10 @@
 import "./App.css";
 import Nav from "./components/Nav.js";
 import Explore from "./pages/Explore.js";
-import Mypage from './pages/Mypage.js';
-import Create from './pages/Create.js';
+import Mypage from "./pages/Mypage";
+import Create from "./pages/Create";
+import Collection from "./pages/Collection";
+import Wallet from "./pages/Wallet";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ItemDetail from './pages/ItemDetail';
 
@@ -22,6 +24,12 @@ function App() {
                 </Route>
                 <Route path="/itemdetail">
                     <ItemDetail />
+                </Route>
+                <Route path="/collection">
+                    <Collection />
+                </Route>
+                <Route path="/wallet">
+                    <Wallet />
                 </Route>
             </Switch>
         </Router>
