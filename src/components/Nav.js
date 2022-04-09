@@ -1,41 +1,43 @@
+import { Link } from 'react-router-dom';
+
 function Nav() {
     return (
         <header id="header" class="header fixed-top">
             <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-                <a href="index.html" class="logo d-flex align-items-center">
-                    <img src="assets/img/logo.png" alt="" />
-                    <span>FlexStart</span>
-                </a>
-
+                <Link to="/">
+                    <a class="logo d-flex align-items-center">
+                        <img src="assets/img/logo.png" alt="" />
+                        <span>OpenSea</span>
+                    </a>
+                </Link>
+                
+                <input type="text" placeholder="Search items"></input>
+                
                 <nav id="navbar" class="navbar">
                     <ul>
                         <li>
-                            <a class="nav-link scrollto active" href="#hero">
-                                Home
+                            <Link to="/">
+                            <a class="nav-link scrollto active">
+                                Explore
                             </a>
+                            </Link>
+                            
                         </li>
                         <li>
-                            <a class="nav-link scrollto" href="#about">
-                                About
-                            </a>
+                            <Link to="/create">
+                                <a class="nav-link scrollto" href="#about">
+                                Create
+                                </a>
+                            </Link>
+                            
                         </li>
                         <li>
-                            <a class="nav-link scrollto" href="#services">
-                                Services
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link scrollto" href="#portfolio">
-                                Portfolio
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-link scrollto" href="#team">
-                                Team
-                            </a>
-                        </li>
-                        <li>
-                            <a href="blog.html">Blog</a>
+                            <Link to="/mypage">
+                                <a class="nav-link scrollto" href="#services">
+                                    Mypage
+                                </a>
+                            </Link>
+                            
                         </li>
                         <li class="dropdown">
                             <a href="#">
