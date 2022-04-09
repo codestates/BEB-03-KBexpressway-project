@@ -1,7 +1,8 @@
 import "./App.css";
-import Main from "./pages/Main.js";
 import Nav from "./components/Nav.js";
-import Explorer from "./pages/Explorer.js";
+import Explore from "./pages/Explore.js";
+import Mypage from './pages/Mypage';
+import Create from './pages/Create';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -10,10 +11,13 @@ function App() {
             <Nav />
             <Switch>
                 <Route exact path="/">
-                    <Main />
+                    <Explore />
                 </Route>
-                <Route path="/explorer">
-                    <Explorer />
+                <Route path="/create">
+                    <Create />
+                </Route>
+                <Route path="/mypage">
+                    <Mypage />
                 </Route>
             </Switch>
         </Router>
