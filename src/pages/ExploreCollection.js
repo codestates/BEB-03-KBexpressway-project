@@ -1,7 +1,7 @@
 import React from "react";
 import CollectionItem from "../components/CollectionItem";
 import { Link } from "react-router-dom";
-import collection_data from "../data/collection_data.json";
+import collection_data from "../data/collectionData.json";
 
 const ExploreCollection = () => {
   // const url = `/collection/${children.collectionId}`;
