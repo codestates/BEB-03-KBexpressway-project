@@ -1,19 +1,17 @@
 import Item from "./Item.js";
 
 function ItemListContainer({ collectionId }) {
-  console.log(`ItemListContainer 📌️${collectionId}`);
-
   return (
-    <div class="container">
+    <div className="container">
       &nbsp;
-      <header class="section-header">
+      <header className="section-header">
         <h2>Portfolio</h2>
         <p>Check our latest work</p>
       </header>
-      <div class="row">
-        <div class="col-lg-12 d-flex justify-content-center">
+      <div className="row">
+        <div className="col-lg-12 d-flex justify-content-center">
           <ul id="portfolio-flters">
-            <li data-filter="*" class="filter-active">
+            <li data-filter="*" className="filter-active">
               All
             </li>
             <li data-filter=".filter-app">App</li>
@@ -22,7 +20,7 @@ function ItemListContainer({ collectionId }) {
           </ul>
         </div>
       </div>
-      <div class="row gy-4 portfolio-container">
+      <div className="row gy-4 portfolio-container">
         <Item />
         <Item />
         <Item />

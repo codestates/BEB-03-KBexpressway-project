@@ -1,19 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import collectionData from "../data/collectionData.json";
 
-const CollectionItem = () => {
+const CollectionItem = ({ collection }) => {
   return (
-    <div class="col-lg-4">
-      <div class="post-box">
-        <div class="post-img">
-          <img src="assets/img/blog/blog-1.jpg" class="img-fluid" alt="" />
+    <div className="col-lg-4">
+      <div className="post-box">
+        <div className="post-img">
+          <img src={collection.image} className="img-fluid" alt="" />
         </div>
-        <span class="post-date">아티스트명</span>
-        <h3 class="post-title">컬렉션 제목</h3>
-
-        <a href="blog-single.html" class="readmore stretched-link mt-auto">
-          <span>컬렉션 설명</span>
-          <i class="bi bi-arrow-right"></i>
-        </a>
+        <span className="post-date">{collection.name}</span>
+        <h3 className="post-title">{collection.description}</h3>
+        <Link
+          to={`/collection/${collection.collectionId}`}
+          className="readmore stretched-link mt-auto"
+        >
+          <span>More</span>
+          <i className="bi bi-arrow-right"></i>
+        </Link>
       </div>
     </div>
   );

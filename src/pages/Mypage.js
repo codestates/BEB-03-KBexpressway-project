@@ -1,14 +1,14 @@
 function Mypage() {
   return (
-    <section id="portfolio" class="portfolio">
-      <div class="container">
-        <header class="section-header">
+    <section id="portfolio" className="portfolio">
+      <div className="container">
+        <header className="section-header">
           <p>Mypage</p>
         </header>
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-center">
+        <div className="row">
+          <div className="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">
+              <li data-filter="*" className="filter-active">
                 All
               </li>
               <li data-filter=".filter-app">Created</li>

@@ -3,10 +3,10 @@ import ItemListContainer from "../components/ItemListContainer";
 function Collection({ match }) {
   const collectionId = match?.params?.collectionId;
 
-  // console.log(`📌️${collectionId}`);
+  console.log(`[📦️Collection.js] collectionId 📌️${collectionId}`);
 
   return (
-    <section id="portfolio" class="portfolio">
+    <section id="portfolio" className="portfolio">
       <ItemListContainer collectionId={collectionId} />
     </section>
   );
