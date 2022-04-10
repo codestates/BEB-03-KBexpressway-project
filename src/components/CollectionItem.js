@@ -9,6 +9,7 @@ const CollectionItem = () => {
         </div>
         <span class="post-date">아티스트명</span>
         <h3 class="post-title">컬렉션 제목</h3>
+
         <a href="blog-single.html" class="readmore stretched-link mt-auto">
           <span>컬렉션 설명</span>
           <i class="bi bi-arrow-right"></i>

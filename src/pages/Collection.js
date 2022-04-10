@@ -1,20 +1,15 @@
-import React from "react";
-import CollectionItem from "../components/CollectionItem";
+import ItemListContainer from "../components/ItemListContainer";
 
-const Collection = () => {
+function Collection({ match }) {
+  const collectionId = match?.params?.collectionId;
+
+  // console.log(`📌️${collectionId}`);
+
   return (
-    <section id="recent-blog-posts" class="recent-blog-posts">
-      <div class="container">
-        <header class="section-header">
-          <p>Explore Collection</p>
-        </header>
-
-        <div class="row">
-          <CollectionItem />
-        </div>
-      </div>
+    <section id="portfolio" class="portfolio">
+      <ItemListContainer collectionId={collectionId} />
     </section>
   );
-};
+}
 
 export default Collection;
