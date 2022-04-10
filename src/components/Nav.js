@@ -17,27 +17,38 @@ function Nav() {
                     <ul>
                         <li>
                             <Link to="/">
-                            <a class="nav-link scrollto active">
+                            <a class="nav-link scrollto">
                                 Explore
                             </a>
                             </Link>
-                            
+                        </li>
+                        <li>
+                            <Link to="/collection">
+                            <a class="nav-link scrollto">
+                                Collection
+                            </a>
+                            </Link>
                         </li>
                         <li>
                             <Link to="/create">
-                                <a class="nav-link scrollto" href="#about">
+                                <a class="nav-link scrollto">
                                 Create
                                 </a>
                             </Link>
-                            
                         </li>
                         <li>
                             <Link to="/mypage">
-                                <a class="nav-link scrollto" href="#services">
+                                <a class="nav-link scrollto">
                                     Mypage
                                 </a>
                             </Link>
-                            
+                        </li>
+                        <li>
+                            <Link to="/wallet">
+                                <a class="nav-link scrollto">
+                                    Wallet
+                                </a>
+                            </Link>
                         </li>
                         <li class="dropdown">
                             <a href="#">
