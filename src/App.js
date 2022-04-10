@@ -22,9 +22,10 @@ function App() {
                 <Route path="/mypage">
                     <Mypage />
                 </Route>
-                <Route path="/itemdetail">
+                <Route path="/itemdetail/:tokenId" component={ItemDetail} />
+                {/* <Route path="/itemdetail/:tokenId">
                     <ItemDetail />
-                </Route>
+                </Route> */}
                 <Route path="/collection">
                     <Collection />
                 </Route>
