@@ -4,7 +4,7 @@ import "./FileUploader.scss";
 const FileUploader = () => {
   return (
     <>
-      <form id="file-upload-form" class="uploader">
+      <form id="file-upload-form" className="uploader">
         <input
           id="file-upload"
           type="file"
@@ -12,20 +12,20 @@ const FileUploader = () => {
           accept="image/*"
         />
         <label for="file-upload" id="file-drag">
-          <img id="file-image" src="#" alt="Preview" class="hidden" />
+          <img id="file-image" src="#" alt="Preview" className="hidden" />
           <div id="start">
-            <i class="fa fa-download" aria-hidden="true"></i>
+            <i className="fa fa-download" aria-hidden="true"></i>
             <div>파일을 선택해 주세요</div>
-            <div id="notimage" class="hidden">
+            <div id="notimage" className="hidden">
               Please select an image
             </div>
-            <span id="file-upload-btn" class="btn btn-primary">
+            <span id="file-upload-btn" className="btn btn-primary">
               가져오기
             </span>
           </div>
-          <div id="response" class="hidden">
+          <div id="response" className="hidden">
             <div id="messages"></div>
-            <progress class="progress" id="file-progress" value="0">
+            <progress className="progress" id="file-progress" value="0">
               <span>0</span>%
             </progress>
           </div>
