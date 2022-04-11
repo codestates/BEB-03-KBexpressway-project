@@ -19,6 +19,9 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(express.json());
+
+app.get("/", (req, res) => { res.send("Hello World!"); });
 
 // 인증관련 미들웨어
 // app.post("/login", routes.login);
@@ -27,8 +30,8 @@ app.use(cookieParser());
 // app.get("/refreshtokenrequest", routes.refTokenReq);
 
 // 아이템
-app.get("/items/collections", routes.collections);
-app.get("/items/nfts", routes.nfts);
+app.get("/items/collections/", routes.collections);
+app.get("/items/nfts/:col_id", routes.nfts);
 
 // 거래
 
