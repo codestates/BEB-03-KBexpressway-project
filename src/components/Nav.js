@@ -10,8 +10,14 @@ function Nav() {
                         <span>OpenSea</span>
                     </a>
                 </Link>
-                
-                <input type="text" placeholder="Search items"></input>
+
+                <div className="sidebar-item search-form">
+                    <form action="">
+                    <input type="text" placeholder='Search Items' />
+                    <button type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                </div>
+
                 
                 <nav id="navbar" className="navbar">
                     <ul>
@@ -22,13 +28,6 @@ function Nav() {
                             </a>
                             </Link>
                         </li>
-                        {/* <li>
-                            <Link to="/collection">
-                            <a className="nav-link scrollto">
-                                Collection
-                            </a>
-                            </Link>
-                        </li> */}
                         <li>
                             <Link to="/create">
                                 <a className="nav-link scrollto">
