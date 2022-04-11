@@ -3,7 +3,15 @@ const { Collections } = require('../../src/db/models');
 module.exports = async (req, res) => {
     const collections = await Collections.findAll();
     if (collections) {
-        res.status(200).send(collections);
+        const payload = collections.map(collection => {
+            return {
+                id: collection.id,
+                name: collection.name,
+                description: collection.description,
+                image: collection.image
+            }
+        });
+        res.status(200).send(payload);
     } else {
         res.status(404).send('No collections found');
     }
