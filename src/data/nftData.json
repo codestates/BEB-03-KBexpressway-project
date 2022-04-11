@@ -5,7 +5,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "1",
+      "collectionId": "1",
       "name": "nft1",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/50.png",
@@ -59,7 +59,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "2",
+      "collectionId": "2",
       "name": "nft2",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/51.png",
@@ -113,7 +113,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "3",
+      "collectionId": "3",
       "name": "nft3",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/52.png",
@@ -167,7 +167,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "1",
+      "collectionId": "1",
       "name": "nft4",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/53.png",
@@ -221,7 +221,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "2",
+      "collectionId": "2",
       "name": "nft5",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/54.png",
@@ -275,7 +275,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "3",
+      "collectionId": "3",
       "name": "nft6",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/55.png",
@@ -329,7 +329,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "1",
+      "collectionId": "1",
       "name": "nft7",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/56.png",
@@ -383,7 +383,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "2",
+      "collectionId": "2",
       "name": "nft8",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/57.png",
@@ -437,7 +437,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "2",
+      "collectionId": "2",
       "name": "nft9",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/58.png",
@@ -491,7 +491,7 @@
     "ownerAccount": "0x08A46De58d48920448D4e909020FE1560f0c411A",
     "created": "20220410",
     "data": {
-      "collection": "1",
+      "collectionId": "1",
       "name": "nft10",
       "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
       "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/59.png",

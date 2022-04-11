@@ -9,30 +9,30 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ItemDetail from "./pages/ItemDetail";
 
 function App() {
-  return (
-    <Router>
-      <Nav />
-      <Switch>
-        <Route exact path="/">
-          <ExploreCollection />
-        </Route>
-        <Route path="/create">
-          <Create />
-        </Route>
-        <Route path="/mypage">
-          <Mypage />
-        </Route>
-        <Route path="/itemdetail/:tokenId" component={ItemDetail} />
-        {/* <Route path="/itemdetail/:tokenId">
-                    <ItemDetail />
-                </Route> */}
-        <Route path="/collection/:collectionId" component={Collection} />
-        <Route path="/wallet">
-          <Wallet />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    return (
+        <Router>
+            <Nav />
+            <Switch>
+                <Route exact path="/">
+                    <ExploreCollection />
+                </Route>
+                <Route path="/create">
+                    <Create />
+                </Route>
+                <Route path="/mypage">
+                    <Mypage />
+                </Route>
+                <Route path="/itemdetail/:tokenId" component={ItemDetail} />
+                {/* <Route path="/itemdetail/:tokenId">
+                            <ItemDetail />
+                        </Route> */}
+                <Route path="/collection/:collectionId" component={Collection} />
+                <Route path="/wallet">
+                    <Wallet />
+                </Route>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
