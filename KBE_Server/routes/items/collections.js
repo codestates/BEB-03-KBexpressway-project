@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
                 image: collection.image
             }
         });
-        res.status(200).send(payload);
+        res.status(200).send({data : payload, message: 'Successful Response'});
     } else {
         res.status(404).send('No collections found');
     }

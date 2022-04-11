@@ -6,9 +6,9 @@ module.exports = async (req, res) => {
         const nfts = await Nfts.findAll();
         const collections = await Collections.findAll();
 
-        const patload = makePayload(nfts, collections);
+        const payload = makePayload(nfts, collections);
 
-        res.status(200).send(patload);
+        res.status(200).send({data : payload, message: 'Successful Response'});
     }
     else {
         const nfts = await Nfts.findAll({
@@ -19,9 +19,9 @@ module.exports = async (req, res) => {
         if (nfts.length > 0) {
             const collections = await Collections.findAll();
 
-            const patload = makePayload(nfts, collections);
+            const payload = makePayload(nfts, collections);
 
-            res.status(200).send(patload);
+            res.status(200).send({data : payload, message: 'Successful Response'});
         }
         else {
             res.status(404).send('No nfts found');
