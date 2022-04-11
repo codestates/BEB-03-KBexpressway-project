@@ -9,6 +9,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ItemDetail from "./pages/ItemDetail";
 
 function App() {
+    window.addEventListener('scroll', () => { 
+        // console.log(window.scrollX, window.scrollY);
+        if (window.scrollY > 100) {
+            document.querySelector('#header').classList.add('header-scrolled')
+        } else {
+            document.querySelector('#header').classList.remove('header-scrolled')
+        }
+    });
+
     return (
         <Router>
             <Nav />
