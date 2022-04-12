@@ -1,10 +1,50 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import FileUploader from "../components/FileUploader";
 import "./Create.css";
 import collectionData from "../data/collectionData.json";
 import { Link } from 'react-router-dom';
+import { NFTStorage } from 'nft.storage';
 
 const Create = memo(() => {
+  const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMwMTZmNmFlN2JiMkI1MDlDNzAwMzBjREEzQjE2QTJmYTFlZDczZDYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTc0ODUwMzg2OCwibmFtZSI6InByb2plY3QifQ.kTECTr_5hc9tETAtSB6lZ6IFu6No_glSWt1ensgOObE";
+  const client = new NFTStorage({ token: apiKey });
+  const [file, setFile] = useState();
+  const [name, setName] = useState();
+  const [desc, setDesc] = useState();
+  
+  // 파일 선택 시 state 변경
+  const handleFileInput = (e) => {
+    console.log("onchange");
+    const file = e.target.files[0];
+    console.log(file);
+    setFile(file);
+  }
+
+  // NFT 이름 입력
+  const handleName = (e) => {
+    const name = e.target.value;
+    console.log(name);
+    setName(name);
+  }
+
+  // NFT Description 입력
+  const handleDescription = (e) => {
+    const desc = e.target.value;
+    console.log(desc);
+    setDesc(desc);
+  }
+
+  // 업로드 버튼 클릭
+  const handleSubmit = async (e) => {
+    //더미데이터로 메타데이터 생성
+    const metadata = await client.store({
+      name: name,
+      description: desc,
+      image: file
+    })
+    console.log(metadata.url);
+  }
+
   return (
     <section id="contact" className="contact">
       <div className="container">
@@ -13,13 +53,12 @@ const Create = memo(() => {
         </header>
         <div className="row php-email-form">
           <form
-            action="forms/contact.php"
-            method="post"
             className="php-email-form"
           >
             <div className="row gy-4">
             <div className="col-md-12">
-            <h4 align="left">Image, Video, Audio, or 3D Model</h4>
+                <h4 align="left">Image, Video, Audio, or 3D Model</h4>
+                <input type="file" id="upload" className="image-upload" onChange = {handleFileInput} />
             <FileUploader />
               </div>
               <div className="col-md-12">
@@ -30,6 +69,7 @@ const Create = memo(() => {
                   name="subject"
                   placeholder="Item name"
                   required
+                  onChange={handleName}
                 />
               </div>
               <div className="col-md-12">
@@ -40,6 +80,7 @@ const Create = memo(() => {
                   rows="6"
                   placeholder="Provide a detail description of your item"
                   required
+                  onChange={handleDescription}
                 ></textarea>
               </div>
               <div className="col-md-12">
@@ -56,7 +97,7 @@ const Create = memo(() => {
                 
               </div>
               <div className="col-md-12 text-center">
-                <button type="submit">업로드</button>
+                <button type="button" className="btn btn-primary" onClick={handleSubmit}>업로드</button>
               </div>
             </div>
           </form>
