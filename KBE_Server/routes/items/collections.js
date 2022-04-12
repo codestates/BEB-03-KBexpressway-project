@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
         const payload = collections.map(collection => {
             return {
                 id: collection.id,
+                contract_address: collection.contract_address,
                 name: collection.name,
                 description: collection.description,
                 image: collection.image

@@ -14,6 +14,7 @@ module.exports = {
     await queryInterface.bulkInsert('Collections', [
       {
         id: 1,
+        contract_address: '0x0000000000000000000000000000000000000000',
         name: "collection1",
         description: "Friendly OpenSea Creature that enjoys long swims in the ocean.",
         image: "https://storage.googleapis.com/opensea-prod.appspot.com/creature/60.png",
@@ -22,6 +23,7 @@ module.exports = {
       },
       {
         id: 2,
+        contract_address: '0x0000000000000000000000000000000000000000',
         name: "collection2",
         description: "Friendly OpenSea Creature that enjoys long swims in the ocean.",
         image: "https://storage.googleapis.com/opensea-prod.appspot.com/creature/61.png",
@@ -30,6 +32,7 @@ module.exports = {
       },
       {
         id: 3,
+        contract_address: '0x0000000000000000000000000000000000000000',
         name: "collection3",
         description: "Friendly OpenSea Creature that enjoys long swims in the ocean.",
         image: "https://storage.googleapis.com/opensea-prod.appspot.com/creature/62.png",
