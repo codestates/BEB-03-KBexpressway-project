@@ -7,6 +7,7 @@ import Collection from "./pages/Collection";
 import Wallet from "./pages/Wallet";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ItemDetail from "./pages/ItemDetail";
+import CreateCollection from './pages/CreateCollection';
 
 function App() {
     window.addEventListener('scroll', () => { 
@@ -27,6 +28,9 @@ function App() {
                 </Route>
                 <Route path="/create">
                     <Create />
+                </Route>
+                <Route path="/createcollection">
+                    <CreateCollection />
                 </Route>
                 <Route path="/mypage">
                     <Mypage />
