@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import FileUploader from "../components/FileUploader";
 import "./Create.css";
 import collectionData from "../data/collectionData.json";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { NFTStorage } from 'nft.storage';
 
 const Create = memo(() => {
@@ -11,6 +11,9 @@ const Create = memo(() => {
   const [file, setFile] = useState();
   const [name, setName] = useState();
   const [desc, setDesc] = useState();
+  const [metadata, setMetadata] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
@@ -36,18 +39,34 @@ const Create = memo(() => {
 
   // 업로드 버튼 클릭
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     //더미데이터로 메타데이터 생성
-    const metadata = await client.store({
+    await client.store({
       name: name,
       description: desc,
       image: file
+    }).then((metadata) => {
+      setMetadata(metadata.url);
+      setIsLoading(false);
+      setIsCompleted(true);
     })
-    console.log(metadata.url);
   }
+
 
   return (
     <section id="contact" className="contact">
-      <div className="container">
+      {console.log(isCompleted, metadata)}
+      {isCompleted === true ?
+        (<section id="portfolio" className="portfolio">
+        <header className="section-header">
+          <h2>메타데이터 업로드 완료!</h2>
+            <a href={"http://ipfs.io/ipfs/" + String(metadata).split('//')[1]} target="_blank">
+              {"http://ipfs.io/ipfs/" + String(metadata).split('//')[1]}
+            </a>
+        </header>
+      </section>)
+        : ( isLoading === false && isCompleted === false
+          ? (<div div className="container">
         <header className="section-header">
           <p>Create New Item</p>
         </header>
@@ -101,8 +120,16 @@ const Create = memo(() => {
               </div>
             </div>
           </form>
-        </div>
-      </div>
+          </div>
+          </div>)
+          : (<section id="portfolio" className="portfolio">
+          <header className="section-header">
+              <h2>메타데이터 업로드 하는 중</h2>
+              <h4>페이지를 이동하지 마세요!</h4>
+          </header>
+        </section>)
+        )}
+      
     </section>
   );
 });
