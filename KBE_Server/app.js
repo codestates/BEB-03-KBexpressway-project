@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => { res.send("Hello World!"); });
 
-// 인증관련 미들웨어
+// 인증
 // app.post("/login", routes.login);
 // app.post("/logout", routes.logout);
 // app.get("/accesstokenrequest", routes.accTokenReq);

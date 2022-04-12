@@ -1,35 +1,46 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Nfts', {
+    await queryInterface.createTable('MarketLogs', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      collections_id: {
+      nft_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'collections',
+          model: 'nfts',
           key: 'id',
         },
         onDelete: 'RESTRICT',
         allowNull: false
       },
-      contract_address: {
+      seller_account: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      ipfs: {
-        type: Sequelize.STRING,
+      sale_price: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      creater_account: {
-        type: Sequelize.STRING
+      sale_token: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'WETH'
       },
-      owner_account: {
-        type: Sequelize.STRING
+      status_code: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      buyer_account: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      transactedAt: {
+        type: Sequelize.DATE,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
@@ -42,6 +53,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Nfts');
+    await queryInterface.dropTable('MarketLogs');
   }
 };

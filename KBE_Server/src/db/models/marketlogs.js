@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Nfts extends Model {
+  class MarketLogs extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,39 +11,48 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Collections, {
-        as: 'collections',
-        foreignKey: 'collectionId',
-        onDelete: 'RESTRICT'
-      })
-
-      this.hasMany(models.MarketLogs, {
-        as: 'marketlogs',
+      this.belongsTo(models.Nfts, {
+        as: 'nfts',
         foreignKey: 'nftId',
         onDelete: 'RESTRICT'
       })
 
     }
   }
-  Nfts.init({
-    collectionId: {
-      field: 'collections_id',
+  MarketLogs.init({
+    nftId:{
+      field: 'nft_id',
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    contract_address: {
+    seller_account: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    ipfs: {
-      type: DataTypes.STRING,
+    sale_price: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    creater_account: DataTypes.STRING,
-    owner_account: DataTypes.STRING
+    sale_token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'WETH'
+    },
+    status_code: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    buyer_account: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    transactedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    }
   }, {
     sequelize,
-    modelName: 'Nfts',
+    modelName: 'MarketLogs',
   });
-  return Nfts;
+  return MarketLogs;
 };
