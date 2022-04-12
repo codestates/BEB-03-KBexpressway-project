@@ -34,7 +34,33 @@ module.exports = async (req, res) => {
 function makePayload(nfts, collections, marketlogs) {
     const result = nfts.map(nft => {
         const collection = collections.find(collection => collection.dataValues.id == nft.dataValues.collectionId);
-        const marketlog = marketlogs.filter(marketlog => marketlog.dataValues.nftId == nft.dataValues.id);
+        const filtered_marketlogs = marketlogs.filter(marketlog => marketlog.dataValues.nftId == nft.dataValues.id);
+
+        let onMarket = 0;
+        let onMarket_integrity_checker = false;
+
+        const marketlogs_payload = filtered_marketlogs.map(marketlog => {
+            if (marketlog.dataValues.status_code == 1 && onMarket_integrity_checker == false) {
+                onMarket = 1;
+                onMarket_integrity_checker = true;
+            }
+            else if (marketlog.dataValues.status_code == 3 && onMarket_integrity_checker == false) {
+                onMarket = 3;
+                onMarket_integrity_checker = true;
+            }
+
+            return {
+                id: marketlog.dataValues.id,
+                nftId: marketlog.dataValues.nftId,
+                seller_account: marketlog.dataValues.seller_account,
+                sale_price: marketlog.dataValues.sale_price,
+                sale_token: marketlog.dataValues.sale_token,
+                status_code: marketlog.dataValues.status_code,
+                buyer_account: marketlog.dataValues.buyer_account,
+                transaction_hash: marketlog.dataValues.transaction_hash,
+                transactedAt: marketlog.dataValues.transactedAt
+            }
+        });
 
         return {
             id: nft.id,
@@ -42,11 +68,11 @@ function makePayload(nfts, collections, marketlogs) {
             collection_name: collection.dataValues.name,
             collection_description: collection.dataValues.description,
             collection_image: collection.dataValues.image,
-            contract_address: nft.contract_address,
             ipfs: nft.ipfs,
             creater_account: nft.creater_account,
             owner_account: nft.owner_account,
-            marketlog: marketlog
+            onMarket: onMarket,
+            marketlog: marketlogs_payload
         }
     });
     return result;

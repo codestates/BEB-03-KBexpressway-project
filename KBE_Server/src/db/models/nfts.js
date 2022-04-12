@@ -31,16 +31,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    contract_address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     ipfs: {
       type: DataTypes.STRING,
       allowNull: false
     },
     creater_account: DataTypes.STRING,
-    owner_account: DataTypes.STRING
+    owner_account: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Nfts',

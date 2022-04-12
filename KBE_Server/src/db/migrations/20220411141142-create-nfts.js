@@ -17,10 +17,6 @@ module.exports = {
         onDelete: 'RESTRICT',
         allowNull: false
       },
-      contract_address: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       ipfs: {
         type: Sequelize.STRING,
         allowNull: false
@@ -29,7 +25,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       owner_account: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
