@@ -40,14 +40,17 @@ function makePayload(nfts, collections, marketlogs) {
         let onMarket_integrity_checker = false;
 
         const marketlogs_payload = filtered_marketlogs.map(marketlog => {
-            if (marketlog.dataValues.status_code == 1 && onMarket_integrity_checker == false) {
-                onMarket = 1;
-                onMarket_integrity_checker = true;
-            }
-            else if (marketlog.dataValues.status_code == 3 && onMarket_integrity_checker == false) {
-                onMarket = 3;
-                onMarket_integrity_checker = true;
-            }
+
+            if (marketlog.dataValues.status_code == 1 || marketlog.dataValues.status_code == 3) {
+                onMarket = marketlog.dataValues.status_code;
+
+                if (onMarket_integrity_checker == false) {
+                    onMarket_integrity_checker = true;
+                } 
+                else {
+                    console.log(`there is a integrity Issue of MarketLogs at (id : ${marketlog.dataValues.id})`);
+                };
+            };
 
             return {
                 id: marketlog.dataValues.id,

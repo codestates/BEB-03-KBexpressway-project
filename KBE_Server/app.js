@@ -19,10 +19,9 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("KBE Backend Server");
 });
 
 // 인증
@@ -34,20 +33,29 @@ app.post("/login", routes.login);
 // 아이템
 app.get("/items/collections/", routes.collections);
 app.get("/items/nfts/:col_id", routes.nfts);
+// app.post("/items/collections/create", routes.createCollection);
+app.post("/items/nfts/mint", routes.mint);
 
 // 거래
+app.post("/transactions/buy", routes.buy);
 
 const HTTPS_PORT = process.env.HTTPS_PORT;
 
 let server;
-if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
-  const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
-  const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
-  const credentials = { key: privateKey, cert: certificate };
 
-  server = https.createServer(credentials, app);
-  server.listen(HTTPS_PORT, () => console.log("https server runnning!!"));
-} else {
-  server = app.listen(HTTPS_PORT);
-}
+//// HTTPS 서버 주석
+
+// if(fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")){
+
+//   const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
+//   const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
+//   const credentials = { key: privateKey, cert: certificate };
+
+//   server = https.createServer(credentials, app);
+//   server.listen(HTTPS_PORT, () => console.log("https server runnning!!"));
+
+// } else {
+server = app.listen(HTTPS_PORT);
+console.log("http server runnning!!");
+// }
 module.exports = server;

@@ -2,60 +2,114 @@ import React, { memo, useState } from "react";
 import FileUploader from "../components/FileUploader";
 import "./Create.css";
 import collectionData from "../data/collectionData.json";
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { NFTStorage } from 'nft.storage';
 
 const Create = memo(() => {
   const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMwMTZmNmFlN2JiMkI1MDlDNzAwMzBjREEzQjE2QTJmYTFlZDczZDYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTc0ODUwMzg2OCwibmFtZSI6InByb2plY3QifQ.kTECTr_5hc9tETAtSB6lZ6IFu6No_glSWt1ensgOObE";
   const client = new NFTStorage({ token: apiKey });
+  const [inputs, setInputs] = useState({
+    name: '',
+    desc: ''
+  })
   const [file, setFile] = useState();
-  const [name, setName] = useState();
-  const [desc, setDesc] = useState();
+  const [price, setPrice] = useState();
+  const [properties, setProperties] = useState([{ type: '', value: '' }]);
   const [metadata, setMetadata] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   
+  
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
-    console.log("onchange");
+    // console.log("onchange");
     const file = e.target.files[0];
     console.log(file);
     setFile(file);
   }
 
-  // NFT 이름 입력
-  const handleName = (e) => {
-    const name = e.target.value;
-    console.log(name);
-    setName(name);
-  }
-
-  // NFT Description 입력
-  const handleDescription = (e) => {
-    const desc = e.target.value;
-    console.log(desc);
-    setDesc(desc);
-  }
-
-  // 업로드 버튼 클릭
-  const handleSubmit = async (e) => {
-    setIsLoading(true);
-    //더미데이터로 메타데이터 생성
-    await client.store({
-      name: name,
-      description: desc,
-      image: file
-    }).then((metadata) => {
-      setMetadata(metadata.url);
-      setIsLoading(false);
-      setIsCompleted(true);
+  // NFT 이름, Description 입력
+  const handleInputs = (e) => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
     })
   }
 
+  // Price 입력
+  const handlePrice = (e) => {
+    console.log(typeof e.target.value);
+    if (e.target.value.includes('-')) {
+      e.target.value = "";
+      alert('알맞은 값을 입력해주세요');
+    } else {
+      setPrice(e.target.value);
+    }
+  }
+
+  // Property type, value 입력
+  const handleProperty = (e) => {
+    const { name, value, id } = e.target;
+    const newArr = [...properties];
+    newArr[id][name] = value;
+    setProperties(newArr);
+  }
+
+  // Property 항목 추가 버튼 클릭
+  const addProperty = () => {
+    setProperties([...properties, { type: '', value: '' }]);
+  }
+
+  // Property 항목 삭제 버튼 클릭 (가장 마지막 항목 삭제)
+  const delProperty = () => {
+    setProperties(properties.slice(0, properties.length - 1));
+  }
+
+  // 업로드 버튼 클릭 (메타데이터 업로드 및 벡엔드로 create 요청 전송)
+  const handleSubmit = async (e) => {
+    // 필수항목 입력 여부 체크 후 메타데이터 생성
+    if (inputs.name === '') {
+      alert('Name을 입력해주세요');
+    } else if (inputs.desc === '') {
+      alert('Description을 입력해주세요')
+    } else if (file === undefined) {
+      alert('Image 파일을 선택해주세요');
+    } else if (price === undefined || price === '') {
+      alert('가격을 입력해주세요');
+    } else  {
+      setIsLoading(true);
+      // state 이용해서 메타데이터 생성
+      let data = {
+        name: inputs.name,
+        description: inputs.desc,
+        image: file
+      }
+      if (properties.length !== 0 && properties[0]['type'] !== '') {
+        data['attributes'] = properties;
+      }
+
+      await client.store(data).then((metadata) => {
+        setMetadata(metadata.url);
+        setIsLoading(false);
+        setIsCompleted(true);
+
+        // 벡엔드로 요청 전송
+        const url = "";
+        const payload = {
+          collectionId: null,
+          price: Number(price),
+          ipfs: metadata.url,
+          account: "0x0000000000000000000000000000000000000000",
+          saleToken: null
+        }
+      })
+    }
+  }
 
   return (
     <section id="contact" className="contact">
-      {console.log(isCompleted, metadata)}
+      {console.log('properties', properties)}
       {isCompleted === true ?
         (<section id="portfolio" className="portfolio">
         <header className="section-header">
@@ -85,35 +139,58 @@ const Create = memo(() => {
                 <input
                   type="text"
                   className="form-control"
-                  name="subject"
+                  name="name"
                   placeholder="Item name"
                   required
-                  onChange={handleName}
+                  onChange={handleInputs}
                 />
               </div>
               <div className="col-md-12">
               <h4 align="left">Description</h4>
                 <textarea
                   className="form-control"
-                  name="message"
+                  name="desc"
                   rows="6"
                   placeholder="Provide a detail description of your item"
                   required
-                  onChange={handleDescription}
+                  onChange={handleInputs}
                 ></textarea>
               </div>
               <div className="col-md-12">
+              <h4 align="left">Price</h4>
+                  <input type="number" className="form-control" name="price" placeholder="단위: ETH" min="0" step="0.01" onChange={handlePrice}/>
+              </div>
+              <div className="col-md-12">
+                    <h4 align="left">Properties</h4>
+                    <div className="row gy-4" id="properties_container">
+                      {properties.map((el, index) => {
+                        return (<>
+                          <div className="col-md-6 property1">
+                            <input type="text" name="type" id={index} className="form-control" placeholder="type" onChange={handleProperty}/>
+                          </div>
+                          <div className="col-md-6 property1">
+                            <input type="text" name="value" id={index} className="form-control" placeholder="value" onChange={handleProperty}/>
+                          </div>
+                        </>);
+                      })}
+                    </div>
+                  </div>
+                  <div className="col-md-12 text-center">
+                    <button type="button" className="btn btn-primary" onClick={addProperty}><i class="bi bi-plus" /></button>
+                    <button type="button" className="btn btn-primary" onClick={delProperty}>삭제</button>
+                  </div>
+              
+              <div className="col-md-12">
               <h4 align="left">Collection</h4>
-                <select className="form-control">
+                <select className="form-control" disabled>
                   <option value="">Select Collection</option>
                   {collectionData.map((collection) => {
                     return <option value={collection.collectionId}>{collection.name}</option>
                   })}
                 </select>
                 <Link to="/createcollection">
-                <p> You can manage your collections here.</p>
+                  <p> You can manage your collections here.</p>
                 </Link>
-                
               </div>
               <div className="col-md-12 text-center">
                 <button type="button" className="btn btn-primary" onClick={handleSubmit}>업로드</button>
