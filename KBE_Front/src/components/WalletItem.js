@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import Web3 from "web3";
+import axios from "axios";
 
 const WalletItem = memo(({ children }) => {
   const [web3, setWeb3] = useState();
@@ -21,8 +22,20 @@ const WalletItem = memo(({ children }) => {
       method: "eth_requestAccounts",
     });
 
-    setAccount(accounts[0]);
     console.log(`📌️${account}`);
+    setAccount(accounts[0]);
+    axios({
+      method: "post",
+      url: "https://localhost:4001/login",
+      data: {
+        account: accounts[0],
+      },
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   };
 
   return (

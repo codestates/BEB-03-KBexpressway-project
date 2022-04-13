@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ["https://localhost:3000"],
+    origin: ["https://localhost:3000", "https://localhost:3001"],
     credentials: true,
     methods: ["GET", "POST", "OPTIONS"],
   })
@@ -21,10 +21,12 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.get("/", (req, res) => { res.send("Hello World!"); });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 // 인증
-// app.post("/login", routes.login);
+app.post("/login", routes.login);
 // app.post("/logout", routes.logout);
 // app.get("/accesstokenrequest", routes.accTokenReq);
 // app.get("/refreshtokenrequest", routes.refTokenReq);
@@ -35,20 +37,17 @@ app.get("/items/nfts/:col_id", routes.nfts);
 
 // 거래
 
-
 const HTTPS_PORT = process.env.HTTPS_PORT;
 
 let server;
-if(fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")){
-
+if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
   const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
   const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
   const credentials = { key: privateKey, cert: certificate };
 
   server = https.createServer(credentials, app);
   server.listen(HTTPS_PORT, () => console.log("https server runnning!!"));
-
 } else {
-  server = app.listen(HTTPS_PORT)
+  server = app.listen(HTTPS_PORT);
 }
 module.exports = server;
