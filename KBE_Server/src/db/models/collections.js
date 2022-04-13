@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
   Collections.init({
     contract_address: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     description: {
       type: DataTypes.STRING,
