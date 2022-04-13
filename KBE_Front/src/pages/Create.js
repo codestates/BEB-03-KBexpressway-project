@@ -17,11 +17,11 @@ const Create = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [count, setCount] = useState(2); // 사용자가 추가한 property 항목 개수를 카운팅하는 변수
-  const [properties, setProperties] = useState([{type: 'testType', value: 'testValue'}]);
+  const [properties, setProperties] = useState([{ type: '', value: '' }]);
   
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
-    console.log("onchange");
+    // console.log("onchange");
     const file = e.target.files[0];
     console.log(file);
     setFile(file);
@@ -39,61 +39,19 @@ const Create = memo(() => {
   // Property type, value 입력
   const handleProperty = (e) => {
     const { name, value, id } = e.target;
-    console.log(id, name, value);
+    const newArr = [...properties];
+    newArr[id][name] = value;
+    setProperties(newArr);
   }
 
   // Property 항목 추가 버튼 클릭
   const addProperty = () => {
-    console.log("clicked!");
-    const container = document.querySelector('#properties_container');
-    console.log(container);
-
-    // 새로 생성하는 요소에 넣을 className
-    let newClass = 'property' + String(count); 
-
-    // type 입력창 생성
-    let typeDiv = document.createElement('div');
-    typeDiv.classList.add('col-md-6', newClass);
-    let typeInput = document.createElement('input');
-    typeInput.classList.add('form-control', newClass);
-    typeInput.setAttribute('type', 'text');
-    typeInput.setAttribute('name', 'type');
-    typeInput.setAttribute('id', String(count));
-    typeInput.setAttribute('placeholder', 'type')
-    typeInput.onchange = handleProperty;
-    typeDiv.appendChild(typeInput);
-
-    // value 입력창 생성
-    let valueDiv = document.createElement('div');
-    valueDiv.classList.add('col-md-6', newClass);
-    let valueInput = document.createElement('input');
-    valueInput.classList.add('form-control', newClass);
-    valueInput.setAttribute('type', 'text');
-    valueInput.setAttribute('name', 'value');
-    valueInput.setAttribute('id', String(count));
-    valueInput.setAttribute('placeholder', 'value')
-    valueInput.onchange = handleProperty;
-    valueDiv.appendChild(valueInput);
-
-    // container에 typeDiv, valueDiv 붙이기
-    container.append(typeDiv, valueDiv);
-
-    setCount(count + 1);
+    setProperties([...properties, { type: '', value: '' }]);
   }
 
   // Property 항목 삭제 버튼 클릭
-  const delProperty = (e) => {
-    console.log('delete', e.target, typeof e.target);
-    // targetClass를 class로 가지고 있는 요소 모두 삭제되어야한다.
-    const targetClass = '.property' + String(count-1);
-    const nodeList = document.querySelectorAll(targetClass);
-    console.log(nodeList);
-
-    nodeList.forEach((el) => {
-      el.parentNode.removeChild(el);
-    })
-
-    setCount(count - 1);
+  const delProperty = () => {
+    setProperties(properties.slice(0, properties.length - 1));
   }
 
   // 업로드 버튼 클릭
@@ -107,26 +65,27 @@ const Create = memo(() => {
       alert('Image 파일을 선택해주세요')
     } else {
       setIsLoading(true);
-      //더미데이터로 메타데이터 생성
-      await client.store({
+      // state 이용해서 메타데이터 생성
+      let data = {
         name: inputs.name,
         description: inputs.desc,
-        image: file,
-        attributes: properties
-      }).then((metadata) => {
+        image: file
+      }
+      if (properties.length !== 0 && properties[0]['type'] !== '') {
+        data['attributes'] = properties;
+      }
+
+      await client.store(data).then((metadata) => {
         setMetadata(metadata.url);
         setIsLoading(false);
         setIsCompleted(true);
       })
     }
-
-    
   }
 
   return (
     <section id="contact" className="contact">
-      {console.log(inputs)}
-      {console.log(isCompleted, metadata)}
+      {console.log('properties', properties)}
       {isCompleted === true ?
         (<section id="portfolio" className="portfolio">
         <header className="section-header">
@@ -176,12 +135,16 @@ const Create = memo(() => {
               <div className="col-md-12">
                     <h4 align="left">Properties</h4>
                     <div className="row gy-4" id="properties_container">
-                      <div className="col-md-6 property1">
-                        <input type="text" name="type" id="1" className="form-control property1" placeholder="type" onChange={handleProperty}/>
-                      </div>
-                      <div className="col-md-6 property1">
-                        <input type="text" className="form-control property1" name="value" id="1" placeholder="value" onChange={handleProperty}/>
-                      </div>
+                      {properties.map((el, index) => {
+                        return (<>
+                          <div className="col-md-6 property1">
+                            <input type="text" name="type" id={index} className="form-control" placeholder="type" onChange={handleProperty}/>
+                          </div>
+                          <div className="col-md-6 property1">
+                            <input type="text" name="value" id={index} className="form-control" placeholder="value" onChange={handleProperty}/>
+                          </div>
+                        </>);
+                      })}
                     </div>
                   </div>
                   <div className="col-md-12 text-center">
