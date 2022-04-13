@@ -5,5 +5,8 @@ module.exports = {
     refTokenReq: require('./wallets/refTokenReq'),
     collections: require('./items/collections'),
     nfts: require('./items/nfts'),
+    createCollection: require('./items/createCollection'),
+    mint: require('./items/mint'),
+    buy: require('./transactions/buy'),
   };
   
