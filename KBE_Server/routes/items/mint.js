@@ -9,7 +9,8 @@ module.exports = async (req, res) => {
     };
 
     if (!data.collectionId) {
-        data.collectionId = 1;
+        const publicCollection = await Collections.findOne({ where: { name: "public0001" } })
+        data.collectionId = publicCollection.id;
     }
 
     if (!data.saleToken) {

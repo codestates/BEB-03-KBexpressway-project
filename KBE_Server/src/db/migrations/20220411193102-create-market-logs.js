@@ -40,7 +40,8 @@ module.exports = {
       },
       transaction_hash: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
       },
       transactedAt: {
         type: Sequelize.DATE,

@@ -38,6 +38,15 @@ module.exports = {
         image: "https://storage.googleapis.com/opensea-prod.appspot.com/creature/62.png",
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        id: 4,
+        contract_address: '0x81da6cb73359813c4ce76a7f79e4dfe5a3839463ef45d20d4c3eeb93db6b95b6',
+        name: "public0001",
+        description: "public",
+        image: "",
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

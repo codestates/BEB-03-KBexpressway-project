@@ -48,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     transaction_hash: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     transactedAt: {
       type: DataTypes.DATE,
