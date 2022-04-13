@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: ["https://localhost:3000"],
     credentials: true,
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: ["GET", "POST", "OPTIONS", "PATCH"],
   })
 );
 app.use(cookieParser());
@@ -32,10 +32,10 @@ app.get("/", (req, res) => { res.send("KBE Backend Server"); });
 app.get("/items/collections/", routes.collections);
 app.get("/items/nfts/:col_id", routes.nfts);
 // app.post("/items/collections/create", routes.createCollection);
-app.post("/items/nfts/mint", routes.mint);
+app.post("/items/nfts/mint/", routes.mint);
 
 // 거래
-app.post("/transactions/buy", routes.buy);
+app.patch("/transactions/buy/", routes.buy);
 
 const HTTPS_PORT = process.env.HTTPS_PORT;
 
