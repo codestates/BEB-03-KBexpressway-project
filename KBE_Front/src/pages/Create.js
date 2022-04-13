@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import FileUploader from "../components/FileUploader";
 import "./Create.css";
 import collectionData from "../data/collectionData.json";
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { NFTStorage } from 'nft.storage';
 
 const Create = memo(() => {
@@ -10,14 +10,15 @@ const Create = memo(() => {
   const client = new NFTStorage({ token: apiKey });
   const [inputs, setInputs] = useState({
     name: '',
-    desc: '',
+    desc: ''
   })
   const [file, setFile] = useState();
+  const [price, setPrice] = useState();
+  const [properties, setProperties] = useState([{ type: '', value: '' }]);
   const [metadata, setMetadata] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [count, setCount] = useState(2); // 사용자가 추가한 property 항목 개수를 카운팅하는 변수
-  const [properties, setProperties] = useState([{ type: '', value: '' }]);
+  
   
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
@@ -36,6 +37,17 @@ const Create = memo(() => {
     })
   }
 
+  // Price 입력
+  const handlePrice = (e) => {
+    console.log(typeof e.target.value);
+    if (e.target.value.includes('-')) {
+      e.target.value = "";
+      alert('알맞은 값을 입력해주세요');
+    } else {
+      setPrice(e.target.value);
+    }
+  }
+
   // Property type, value 입력
   const handleProperty = (e) => {
     const { name, value, id } = e.target;
@@ -49,21 +61,23 @@ const Create = memo(() => {
     setProperties([...properties, { type: '', value: '' }]);
   }
 
-  // Property 항목 삭제 버튼 클릭
+  // Property 항목 삭제 버튼 클릭 (가장 마지막 항목 삭제)
   const delProperty = () => {
     setProperties(properties.slice(0, properties.length - 1));
   }
 
-  // 업로드 버튼 클릭
+  // 업로드 버튼 클릭 (메타데이터 업로드 및 벡엔드로 create 요청 전송)
   const handleSubmit = async (e) => {
     // 필수항목 입력 여부 체크 후 메타데이터 생성
     if (inputs.name === '') {
-      alert('Name을 입력해주세요')
+      alert('Name을 입력해주세요');
     } else if (inputs.desc === '') {
       alert('Description을 입력해주세요')
     } else if (file === undefined) {
-      alert('Image 파일을 선택해주세요')
-    } else {
+      alert('Image 파일을 선택해주세요');
+    } else if (price === undefined || price === '') {
+      alert('가격을 입력해주세요');
+    } else  {
       setIsLoading(true);
       // state 이용해서 메타데이터 생성
       let data = {
@@ -79,6 +93,16 @@ const Create = memo(() => {
         setMetadata(metadata.url);
         setIsLoading(false);
         setIsCompleted(true);
+
+        // 벡엔드로 요청 전송
+        const url = "";
+        const payload = {
+          collectionId: null,
+          price: Number(price),
+          ipfs: metadata.url,
+          account: "0x0000000000000000000000000000000000000000",
+          saleToken: null
+        }
       })
     }
   }
@@ -131,6 +155,10 @@ const Create = memo(() => {
                   required
                   onChange={handleInputs}
                 ></textarea>
+              </div>
+              <div className="col-md-12">
+              <h4 align="left">Price</h4>
+                  <input type="number" className="form-control" name="price" placeholder="단위: ETH" min="0" step="0.01" onChange={handlePrice}/>
               </div>
               <div className="col-md-12">
                     <h4 align="left">Properties</h4>
