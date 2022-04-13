@@ -9,9 +9,9 @@ npm install
     sequelize db:migrate
     sequelize db:seed:all
 
-npm start
-npm run dev
-npm run debug
+* npm start
+* npm run dev
+* npm run debug
 
 
 ## HTTPS
