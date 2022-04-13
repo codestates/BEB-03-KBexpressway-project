@@ -154,7 +154,7 @@ const Create = memo(() => {
               
               <div className="col-md-12">
               <h4 align="left">Collection</h4>
-                <select className="form-control">
+                <select className="form-control" disabled>
                   <option value="">Select Collection</option>
                   {collectionData.map((collection) => {
                     return <option value={collection.collectionId}>{collection.name}</option>
