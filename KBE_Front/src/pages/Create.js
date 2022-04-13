@@ -8,6 +8,10 @@ import { NFTStorage } from 'nft.storage';
 const Create = memo(() => {
   const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMwMTZmNmFlN2JiMkI1MDlDNzAwMzBjREEzQjE2QTJmYTFlZDczZDYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTc0ODUwMzg2OCwibmFtZSI6InByb2plY3QifQ.kTECTr_5hc9tETAtSB6lZ6IFu6No_glSWt1ensgOObE";
   const client = new NFTStorage({ token: apiKey });
+  const [inputs, setInputs] = useState({
+    name: '',
+    desc: '',
+  })
   const [file, setFile] = useState();
   const [name, setName] = useState();
   const [desc, setDesc] = useState();
@@ -23,27 +27,35 @@ const Create = memo(() => {
     setFile(file);
   }
 
-  // NFT 이름 입력
-  const handleName = (e) => {
-    const name = e.target.value;
-    console.log(name);
-    setName(name);
+  // NFT 이름, Description 입력
+  const handleInputs = (e) => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    })
   }
 
-  // NFT Description 입력
-  const handleDescription = (e) => {
-    const desc = e.target.value;
-    console.log(desc);
-    setDesc(desc);
-  }
+  // const handleName = (e) => {
+  //   const name = e.target.value;
+  //   console.log(name);
+  //   setName(name);
+  // }
+
+  // // NFT Description 입력
+  // const handleDescription = (e) => {
+  //   const desc = e.target.value;
+  //   console.log(desc);
+  //   setDesc(desc);
+  // }
 
   // 업로드 버튼 클릭
   const handleSubmit = async (e) => {
     setIsLoading(true);
     //더미데이터로 메타데이터 생성
     await client.store({
-      name: name,
-      description: desc,
+      name: inputs.name,
+      description: inputs.desc,
       image: file
     }).then((metadata) => {
       setMetadata(metadata.url);
@@ -55,6 +67,7 @@ const Create = memo(() => {
 
   return (
     <section id="contact" className="contact">
+      {console.log(inputs)}
       {console.log(isCompleted, metadata)}
       {isCompleted === true ?
         (<section id="portfolio" className="portfolio">
@@ -85,23 +98,35 @@ const Create = memo(() => {
                 <input
                   type="text"
                   className="form-control"
-                  name="subject"
+                  name="name"
                   placeholder="Item name"
                   required
-                  onChange={handleName}
+                  onChange={handleInputs}
                 />
               </div>
               <div className="col-md-12">
               <h4 align="left">Description</h4>
                 <textarea
                   className="form-control"
-                  name="message"
+                  name="desc"
                   rows="6"
                   placeholder="Provide a detail description of your item"
                   required
-                  onChange={handleDescription}
+                  onChange={handleInputs}
                 ></textarea>
               </div>
+              <div className="col-md-12">
+                    <h4 align="left">Properties</h4>
+                    <div className="row gy-4" id="properties_container">
+                      <div class="col-md-6">
+                        <input type="text" name="type" className="form-control" placeholder="type" required />
+                      </div>
+                      <div class="col-md-6 ">
+                        <input type="text" className="form-control" name="value" placeholder="value" required />
+                      </div>
+                    </div>
+              </div>
+              
               <div className="col-md-12">
               <h4 align="left">Collection</h4>
                 <select className="form-control">
@@ -111,9 +136,8 @@ const Create = memo(() => {
                   })}
                 </select>
                 <Link to="/createcollection">
-                <p> You can manage your collections here.</p>
+                  <p> You can manage your collections here.</p>
                 </Link>
-                
               </div>
               <div className="col-md-12 text-center">
                 <button type="button" className="btn btn-primary" onClick={handleSubmit}>업로드</button>
