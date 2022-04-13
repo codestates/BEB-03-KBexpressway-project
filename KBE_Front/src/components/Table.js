@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { useTable } from "react-table";
+import nftTransaction from "../data/nftTransaction.json";
+
+const log = console.log;
 
 function Table() {
+  log(nftTransaction.result[0].to);
+  log(nftTransaction.result[0].from);
   const Styles = styled.div`
     padding: 1rem;
     table {
@@ -73,6 +78,15 @@ function Table() {
     ],
     []
   );
+
+  const getTimeDifference = function (timeStamp) {
+    return `${((Date.now() - timeStamp) / 86400000000).toFixed(0)} 일 전`;
+  };
+
+  const getLink = function (tx) {
+    return `https://rinkeby.etherscan.io/tx/${tx}`;
+  };
+
   const data = React.useMemo(
     () => [
       {
@@ -80,27 +94,26 @@ function Table() {
         Item: "Hello",
         Price: "World",
         Quantity: "1",
-        From: "Me",
-        To: "You",
-        Time: "Time",
+        From: nftTransaction.result[0].from.slice(0, 6),
+        To: nftTransaction.result[0].to.slice(0, 6),
+        Time: (
+          <a href={getLink(nftTransaction.result[0].hash)} target="_blank">
+            {getTimeDifference(nftTransaction.result[0].timeStamp)}
+          </a>
+        ),
       },
       {
         Type: "Airdrop",
         Item: "Hello",
         Price: "World",
         Quantity: "1",
-        From: "Me",
-        To: "You",
-        Time: "Time",
-      },
-      {
-        Type: "Transfer",
-        Item: "Hello",
-        Price: "World",
-        Quantity: "1",
-        From: "Me",
-        To: "You",
-        Time: "Time",
+        From: nftTransaction.result[1].from.slice(0, 6),
+        To: nftTransaction.result[1].to.slice(0, 6),
+        Time: (
+          <a href={getLink(nftTransaction.result[1].hash)} target="_blank">
+            {getTimeDifference(nftTransaction.result[1].timeStamp)}
+          </a>
+        ),
       },
     ],
     []
