@@ -13,11 +13,11 @@ const Create = memo(() => {
     desc: '',
   })
   const [file, setFile] = useState();
-  const [name, setName] = useState();
-  const [desc, setDesc] = useState();
   const [metadata, setMetadata] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [count, setCount] = useState(2); // 사용자가 추가한 property 항목 개수를 카운팅하는 변수
+  const [properties, setProperties] = useState([{type: 'testType', value: 'testValue'}]);
   
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
@@ -36,34 +36,92 @@ const Create = memo(() => {
     })
   }
 
-  // const handleName = (e) => {
-  //   const name = e.target.value;
-  //   console.log(name);
-  //   setName(name);
-  // }
+  // Property type, value 입력
+  const handleProperty = (e) => {
+    const { name, value, id } = e.target;
+    console.log(id, name, value);
+  }
 
-  // // NFT Description 입력
-  // const handleDescription = (e) => {
-  //   const desc = e.target.value;
-  //   console.log(desc);
-  //   setDesc(desc);
-  // }
+  // Property 항목 추가 버튼 클릭
+  const addProperty = () => {
+    console.log("clicked!");
+    const container = document.querySelector('#properties_container');
+    console.log(container);
+
+    // 새로 생성하는 요소에 넣을 className
+    let newClass = 'property' + String(count); 
+
+    // type 입력창 생성
+    let typeDiv = document.createElement('div');
+    typeDiv.classList.add('col-md-6', newClass);
+    let typeInput = document.createElement('input');
+    typeInput.classList.add('form-control', newClass);
+    typeInput.setAttribute('type', 'text');
+    typeInput.setAttribute('name', 'type');
+    typeInput.setAttribute('id', String(count));
+    typeInput.setAttribute('placeholder', 'type')
+    typeInput.onchange = handleProperty;
+    typeDiv.appendChild(typeInput);
+
+    // value 입력창 생성
+    let valueDiv = document.createElement('div');
+    valueDiv.classList.add('col-md-6', newClass);
+    let valueInput = document.createElement('input');
+    valueInput.classList.add('form-control', newClass);
+    valueInput.setAttribute('type', 'text');
+    valueInput.setAttribute('name', 'value');
+    valueInput.setAttribute('id', String(count));
+    valueInput.setAttribute('placeholder', 'value')
+    valueInput.onchange = handleProperty;
+    valueDiv.appendChild(valueInput);
+
+    // container에 typeDiv, valueDiv 붙이기
+    container.append(typeDiv, valueDiv);
+
+    setCount(count + 1);
+  }
+
+  // Property 항목 삭제 버튼 클릭
+  const delProperty = (e) => {
+    console.log('delete', e.target, typeof e.target);
+    // targetClass를 class로 가지고 있는 요소 모두 삭제되어야한다.
+    const targetClass = '.property' + String(count-1);
+    const nodeList = document.querySelectorAll(targetClass);
+    console.log(nodeList);
+
+    nodeList.forEach((el) => {
+      el.parentNode.removeChild(el);
+    })
+
+    setCount(count - 1);
+  }
 
   // 업로드 버튼 클릭
   const handleSubmit = async (e) => {
-    setIsLoading(true);
-    //더미데이터로 메타데이터 생성
-    await client.store({
-      name: inputs.name,
-      description: inputs.desc,
-      image: file
-    }).then((metadata) => {
-      setMetadata(metadata.url);
-      setIsLoading(false);
-      setIsCompleted(true);
-    })
-  }
+    // 필수항목 입력 여부 체크 후 메타데이터 생성
+    if (inputs.name === '') {
+      alert('Name을 입력해주세요')
+    } else if (inputs.desc === '') {
+      alert('Description을 입력해주세요')
+    } else if (file === undefined) {
+      alert('Image 파일을 선택해주세요')
+    } else {
+      setIsLoading(true);
+      //더미데이터로 메타데이터 생성
+      await client.store({
+        name: inputs.name,
+        description: inputs.desc,
+        image: file,
+        attributes: properties
+      }).then((metadata) => {
+        setMetadata(metadata.url);
+        setIsLoading(false);
+        setIsCompleted(true);
+      })
+    }
 
+    
+  }
 
   return (
     <section id="contact" className="contact">
@@ -118,14 +176,18 @@ const Create = memo(() => {
               <div className="col-md-12">
                     <h4 align="left">Properties</h4>
                     <div className="row gy-4" id="properties_container">
-                      <div class="col-md-6">
-                        <input type="text" name="type" className="form-control" placeholder="type" required />
+                      <div className="col-md-6 property1">
+                        <input type="text" name="type" id="1" className="form-control property1" placeholder="type" onChange={handleProperty}/>
                       </div>
-                      <div class="col-md-6 ">
-                        <input type="text" className="form-control" name="value" placeholder="value" required />
+                      <div className="col-md-6 property1">
+                        <input type="text" className="form-control property1" name="value" id="1" placeholder="value" onChange={handleProperty}/>
                       </div>
                     </div>
-              </div>
+                  </div>
+                  <div className="col-md-12 text-center">
+                    <button type="button" className="btn btn-primary" onClick={addProperty}><i class="bi bi-plus" /></button>
+                    <button type="button" className="btn btn-primary" onClick={delProperty}>삭제</button>
+                  </div>
               
               <div className="col-md-12">
               <h4 align="left">Collection</h4>
