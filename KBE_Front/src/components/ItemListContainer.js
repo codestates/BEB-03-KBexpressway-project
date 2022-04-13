@@ -3,7 +3,10 @@ import nftData from "../data/nftData.json";
 
 function ItemListContainer({ collectionId, opt }) {
   let nftList;
-  if (collectionId !== undefined) {
+  // 콜렉션 상관없이 전체 NFT 목록 출력할때
+  if (Number(collectionId) === 1) {
+    nftList = nftData;
+  } else if (collectionId !== undefined) {
     nftList = nftData.filter((nft) => {
       return Number(nft.data.collectionId) === Number(collectionId);
     });

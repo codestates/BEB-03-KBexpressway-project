@@ -21,12 +21,27 @@ function Nav() {
                 
                 <nav id="navbar" className="navbar">
                     <ul>
-                        <li>
-                            <Link to="/">
-                            <a className="nav-link scrollto">
-                                Explore
+                        <li className="dropdown">
+                            <a href="#">
+                                <span>Explore</span>{" "}
+                                <i className="bi bi-chevron-down"></i>
                             </a>
-                            </Link>
+                            <ul>
+                                <li>
+                                    <Link to="/">
+                                        <a className="nav-link scrollto">
+                                            All NFTs
+                                        </a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/explorecollection">
+                                        <a className="nav-link scrollto">
+                                            Collections
+                                        </a>
+                                    </Link>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <Link to="/create">
