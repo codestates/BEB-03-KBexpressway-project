@@ -21,7 +21,7 @@ const test = {
 const production = {
   username: "root",
   password: process.env.DATABASE_PASSWORD,
-  database: "kbe_pd",
+  database: "kbe_prod",
   host: "127.0.0.1",
   dialect: "mysql",
 };
