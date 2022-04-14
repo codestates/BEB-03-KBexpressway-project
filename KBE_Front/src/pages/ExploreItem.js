@@ -1,5 +1,3 @@
-import nftData from "../data/nftData.json";
-import Item from '../components/Item';
 import ItemListContainer from '../components/ItemListContainer';
 
 const ExploreItem = () => {
@@ -9,7 +7,7 @@ const ExploreItem = () => {
             <h2>Explore</h2>
             <p>All NFTs</p>
           </header>
-          <ItemListContainer collectionId="1" />
+          <ItemListContainer collectionId="0" />
         </section>
       );
 }
