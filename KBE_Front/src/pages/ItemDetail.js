@@ -2,12 +2,14 @@ import collectionData from "../data/collectionData.json";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Web3 from "web3";
-import abi from "../data/abi";
+import abi from "../kbNftAbi";
 
 function ItemDetail({ match, location }) {
+    const contractAddr = "0x3b177164da42627d5c70eb3a55e768c723d5322b";
     const [web3, setWeb3] = useState();
 	const [account, setAccount] = useState("");
-	const [newErc721addr, setNewErc721Addr] = useState();
+    const [newErc721addr, setNewErc721Addr] = useState();
+    const buyer_account = "0x7c897886c7146e4Ca4A5cc8c52fca452FE8809Db";
 
     console.log('location', location);
     const metadata = location.meta;
@@ -32,12 +34,20 @@ function ItemDetail({ match, location }) {
 		}
 	}, []);
 
-    const handleBuy = (e) => {
+    const handleBuy = async (e) => {
         // 컨트랙트 연동
-
+        const contract = await new web3.eth.Contract(abi, newErc721addr);
         // mint 함수 실행
-
-        // transfer 함수 실행
+        const result = await contract.methods.mintNFT(buyer_account, nft.ipfs).send({
+            from: buyer_account,
+            gasLimit: 285000,
+            value: 0,
+        });
+        console.log('mint', result);
+        const totalSupply = await contract.methods.totalSupply().call();
+        console.log('totalSupply', totalSupply);
+        // // transfer 함수 실행
+        // const transferResult = await contract.methods.transfer(nft.creater_account, )
     }
     
     return (
