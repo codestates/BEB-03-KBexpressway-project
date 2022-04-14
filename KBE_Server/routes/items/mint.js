@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
             collectionId: data.collectionId,
             ipfs: data.ipfs,
             creater_account: data.account,
-            owner_account: data.account
+            owner_account: null
         });
     } catch (err) {
         return res.status(err.status || 500).send({message: err.message || 'failed to create nft on DB'});

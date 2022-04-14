@@ -27,7 +27,8 @@ module.exports = {
       },
       owner_account: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        defaultValue: null
       },
       createdAt: {
         allowNull: false,
