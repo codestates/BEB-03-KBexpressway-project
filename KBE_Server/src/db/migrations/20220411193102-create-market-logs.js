@@ -28,7 +28,7 @@ module.exports = {
       sale_token: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'WETH'
+        defaultValue: 'ETH'
       },
       status_code: {
         type: Sequelize.INTEGER,

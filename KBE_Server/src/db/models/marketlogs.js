@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     sale_token: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'WETH'
+      defaultValue: 'ETH'
     },
     status_code: {
       type: DataTypes.INTEGER,

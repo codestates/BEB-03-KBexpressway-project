@@ -1,6 +1,8 @@
 const { Collections } = require('../../src/db/models');
 
+// 요청이 오면 콜렉션 전부 응답으로 보내줌
 module.exports = async (req, res) => {
+
     const collections = await Collections.findAll();
     if (collections) {
         const payload = collections.map(collection => {
