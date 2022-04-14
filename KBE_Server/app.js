@@ -4,7 +4,7 @@ const https = require("https");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const jwtMiddleware = require("./src/lib/jwtMiddleware");
-const checkLoggedIn = require("./src/lib/checkLoggedIn");
+// const checkLoggedIn = require("./src/lib/checkLoggedIn");
 
 const express = require("express");
 const app = express();
@@ -22,11 +22,14 @@ app.use(
 );
 app.use(cookieParser());
 
-app.get("/", (req, res) => { res.send("KBE Backend Server"); });
+app.get("/", (req, res) => {
+  res.send("KBE Backend Server");
+});
 
 // 인증
 app.post("/login", routes.login);
-app.post("/logout", routes.logout);
+app.post("/walletAddr", routes.walletAddr);
+// app.post("/logout", routes.logout);
 // app.get("/accesstokenrequest", routes.accTokenReq);
 // app.get("/refreshtokenrequest", routes.refTokenReq);
 
@@ -55,7 +58,7 @@ let server;
 //   server.listen(HTTPS_PORT, () => console.log("https server runnning!!"));
 
 // } else {
-  server = app.listen(HTTPS_PORT);
-  console.log("http server runnning!!")
+server = app.listen(HTTPS_PORT);
+console.log("http server runnning!!");
 // }
 module.exports = server;

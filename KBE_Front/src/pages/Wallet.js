@@ -1,12 +1,11 @@
 import React, { memo } from "react";
-import { useSelector } from "react-redux";
 import { setToken } from "../modules/tokenReducer";
-
 import WalletItem from "../components/WalletItem";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const Wallet = memo(() => {
   const accessToken = useSelector((state) => state.tokenReducer).token;
-  console.log(`accessToken : 📌️${JSON.stringify(accessToken)}`);
 
   return (
     <>
@@ -33,6 +32,7 @@ const Wallet = memo(() => {
           </div>
         </div>
       </section>
+      {accessToken !== "" && <Redirect to="/" />}
     </>
   );
 });

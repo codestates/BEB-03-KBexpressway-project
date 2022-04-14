@@ -1,8 +1,11 @@
 import Item from "./Item.js";
+// import nftData from "../data/nftData.json";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 function ItemListContainer({ collectionId, opt }) {
+  const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
   const [nftList, setNftList] = useState([]);
 
   useEffect(() => {
@@ -18,14 +21,12 @@ function ItemListContainer({ collectionId, opt }) {
 
     if (opt === "createrAccount") {
       let nftData = nftList.filter((nft) => {
-        return (
-          nft.creater_account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
-        );
+        return nft.creater_account === walletAddr;
       });
       setNftList(nftData);
     } else {
       let nftData = nftList.filter((nft) => {
-        return nft.owner_Account === "0x08A46De58d48920448D4e909020FE1560f0c411A";
+        return nft.owner_Account === walletAddr;
       });
       setNftList(nftData);
     }
@@ -34,7 +35,7 @@ function ItemListContainer({ collectionId, opt }) {
   return (
     <div className="container">
       <div className="row gy-4 portfolio-container">
-        {console.log(nftList)}
+        {/* {console.log(nftList)} */}
         {nftList.map((nft) => {
           return <Item nft={nft} />;
         })}

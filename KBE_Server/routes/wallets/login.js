@@ -3,12 +3,13 @@ const jwt = require("jsonwebtoken");
 const log = console.log;
 
 module.exports = async (req, res) => {
+  log(`📌️login 동작`);
   let info = req.body;
-  log(`📌️${JSON.stringify(info)}`);
+  log(`${JSON.stringify(info)}`);
 
   if (info.account) {
     const token = jwt.sign(info.account, process.env.ACCESS_SECRET);
-    log(`📌️${token}`);
+    log(`${token}`);
     try {
       res.status(201);
       res.json({ accessToken: token });
