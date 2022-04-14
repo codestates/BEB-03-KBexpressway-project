@@ -13,7 +13,7 @@ function ItemListContainer({ collectionId, opt }) {
     const url = "http://localhost:4000/items/nfts/0";
     async function getAllNfts() {
       await axios.get(url).then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         setNftList(res.data.data);
       });
     }
