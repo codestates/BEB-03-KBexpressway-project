@@ -1,18 +1,21 @@
-import nftData from "../data/nftData.json";
 import collectionData from "../data/collectionData.json";
 import { Link } from 'react-router-dom';
 
-function ItemDetail({ match }) {
+function ItemDetail({ match, location }) {
+    console.log('location', location);
+    const metadata = location.meta;
+    const nft = location.nft;
     const tokenId = match.params.tokenId;
-    const nft = nftData.filter((nft) => {
-        return nft.tokenId === tokenId;
-    })[0];
-    const collection = collectionData.filter((collection) => {
-        return collection.collectionId === nft.data.collectionId;
-    })[0];
+
+    // 해당 nft가 속한 컬렉션 페이지로 이동하도록 할 때 사용
+    // const collection = collectionData.filter((collection) => {
+    //     return collection.collectionId === nft.data.collectionId;
+    // })[0];
     
     return (
     <main id="main">
+            {console.log('nft', nft)}
+        {console.log('meta',metadata)}
         <section className="breadcrumbs">
             <div className="container">
                 <ol>
@@ -21,13 +24,13 @@ function ItemDetail({ match }) {
                             Explore
                         </Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link to={`/collection/${collection.collectionId} `}>
                             {collection.name}
                         </Link>
-                    </li>
+                    </li> */}
                 </ol>
-                <h2>{nft.data.name}</h2>
+                <h2>{metadata.name}</h2>
             </div>
         </section>
 
@@ -36,7 +39,7 @@ function ItemDetail({ match }) {
                 <div className="row gy-4">
                     <div className="col-lg-8">
                         <div className="post-img">
-                            <img src={nft.data.image} className="img-fluid" alt=""/>
+                            <img src={metadata.image} className="img-fluid" alt=""/>
                         </div>
                     </div>
                     <div className="col-lg-4">
@@ -44,16 +47,17 @@ function ItemDetail({ match }) {
                             <div className="portfolio-info">
                                 <h3>Information</h3>
                                 <ul>
-                                    <li>
+                                    {/* <li>
                                         <strong>Collection</strong>:
                                         <Link to={`/collection/${collection.collectionId} `}>
                                             {collection.name}
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
-                                        <strong>Name</strong>: {nft.data.name}</li>
+                                        <strong>Name</strong>: {metadata.name}</li>
                                     <li>
-                                        <strong>Price</strong>: {nft.data.price}</li>
+                                        <strong>Price</strong>: 
+                                        {`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`}</li>
                                     <li>
                                         <button className="btn btn-primary">Buy now</button>
                                     </li>
@@ -62,7 +66,7 @@ function ItemDetail({ match }) {
                             <div className="portfolio-info">
                                 <h3>Description</h3>
                                 <p>
-                                    {nft.data.description}
+                                    {metadata.description}
                                 </p>
                             </div>
                         </div>    
@@ -76,7 +80,7 @@ function ItemDetail({ match }) {
 
                 <div className="row">
                     <div className="row gy-4">
-                        {nft.data.attributes.map((trait) => { return (
+                        {metadata.attributes.map((trait) => { return (
                             <div className="col-md-6">
                                 <div className="info-box">
                                     <h3>{trait.trait_type}</h3>
