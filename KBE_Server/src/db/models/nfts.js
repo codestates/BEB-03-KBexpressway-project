@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     creater_account: DataTypes.STRING,
     owner_account: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     sequelize,
