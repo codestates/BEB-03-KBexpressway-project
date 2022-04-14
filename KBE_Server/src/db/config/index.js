@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const development = {
-  username: "root",
+  username: process.env.DATABASE_USERNAME || "root",
   password: process.env.DATABASE_PASSWORD,
   database: "kbe_dev",
   host: "127.0.0.1",
@@ -12,14 +12,14 @@ const development = {
   }
 };
 const test = {
-  username: "root",
+  username: process.env.DATABASE_USERNAME || "root",
   password: process.env.DATABASE_PASSWORD,
   database: "kbe_test",
   host: "127.0.0.1",
   dialect: "mysql",
 };
 const production = {
-  username: "root",
+  username: process.env.DATABASE_USERNAME || "root",
   password: process.env.DATABASE_PASSWORD,
   database: "kbe_prod",
   host: "127.0.0.1",
