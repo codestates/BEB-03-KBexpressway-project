@@ -1,5 +1,4 @@
 import Item from "./Item.js";
-// import nftData from "../data/nftData.json";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -26,9 +25,7 @@ function ItemListContainer({ collectionId, opt }) {
       setNftList(nftData);
     } else {
       let nftData = nftList.filter((nft) => {
-        return (
-          nft.owner_Account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
-        );
+        return nft.owner_Account === "0x08A46De58d48920448D4e909020FE1560f0c411A";
       });
       setNftList(nftData);
     }

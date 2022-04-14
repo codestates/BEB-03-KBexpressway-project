@@ -4,6 +4,7 @@ import "./Create.css";
 import collectionData from "../data/collectionData.json";
 import { Link } from 'react-router-dom';
 import { NFTStorage } from 'nft.storage';
+import axios from 'axios';
 
 const Create = memo(() => {
   const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMwMTZmNmFlN2JiMkI1MDlDNzAwMzBjREEzQjE2QTJmYTFlZDczZDYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTc0ODUwMzg2OCwibmFtZSI6InByb2plY3QifQ.kTECTr_5hc9tETAtSB6lZ6IFu6No_glSWt1ensgOObE";
@@ -92,24 +93,31 @@ const Create = memo(() => {
       await client.store(data).then((metadata) => {
         setMetadata(metadata.url);
         setIsLoading(false);
-        setIsCompleted(true);
 
         // 벡엔드로 요청 전송
-        const url = "";
+        const url = "http://localhost:4000/items/nfts/mint/";
         const payload = {
-          collectionId: null,
+          ipfs: "http://ipfs.io/ipfs/" + String(metadata.url).split('//')[1],
           price: Number(price),
-          ipfs: metadata.url,
           account: "0x0000000000000000000000000000000000000000",
+          collectionId: null,
           saleToken: null
         }
+        axios.post(url, payload)
+          .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+              console.log('생성 완료');
+              setIsCompleted(true);
+            }
+          })
+          
       })
     }
   }
 
   return (
     <section id="contact" className="contact">
-      {console.log('properties', properties)}
       {isCompleted === true ?
         (<section id="portfolio" className="portfolio">
         <header className="section-header">
