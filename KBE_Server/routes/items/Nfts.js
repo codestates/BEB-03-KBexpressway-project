@@ -104,6 +104,26 @@ function makePayload(nfts, collections, marketlogs) {
         // history 만들기
         // 2 : 판매완료된 로그, 4 : 민팅완료된 로그, 5 : 에어드랍 로그 객채들로만 구성된 배열을 따로 만든다.
         const history = marketlogs_payload.filter(marketlog => marketlog.status_code === 2 || marketlog.status_code === 4 || marketlog.status_code === 5);
+        
+        // last_price 만들기 // while 과 if 를 써서 return 으로 null 주면서 찾느게 편해서 극시실행함수 사용. 
+        let last_price = (() => {
+            // history가 없으면 null
+            if (history.length === 0) {
+                return null;
+            }
+            // 뒤에서 부터 확인하하면서 에어드랍(5) 이 아닌 의미있는 거래완료로그를 찾기.
+            let i = 1;
+            // 돌다가 찾으면 와일문 빠져나오기
+            while (history[history.length - i].status_code === 5) { 
+                // 끝까지 돌았는데 못찾았으면 null
+                if (history.length - i === 0) {
+                    return null;
+                }
+                i++;
+            };
+            // 찾았으면 찾은 로그의 가격을 리턴
+            return history[history.length - i].sale_price;
+        })();
 
         // 결론적으로 각각의 nft 정보는 아래와 같은 모양의 객체가 된다.
         return {
@@ -117,6 +137,7 @@ function makePayload(nfts, collections, marketlogs) {
             owner_account: nft.owner_account,
             onMarket: onMarket,
             onMarketLog: onMarketLog[onMarketLog.length-1], // 복수일 가능성을 배제하지 않고 이렇게 마지막 하나의 로그만 보여주는 식이다.
+            last_price: last_price,
             history: history // 히스토리 로그들이 담긴 배열
         }
     });
