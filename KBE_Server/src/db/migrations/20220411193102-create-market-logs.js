@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false
       },
       sale_price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false
       },
       sale_token: {
