@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
         });
         if (nfts.length > 0) {
             const collections = await Collections.findAll();
+            // 클론코딩이고 데이터가 얼마 없어서 nft 마다 쿼리 날리는것보다 그냥 다 가져와서 필터링해서 쓰는게 편할듯.
             const marketlogs = await MarketLogs.findAll();
 
             const payload = makePayload(nfts, collections, marketlogs);
@@ -44,12 +45,11 @@ function makePayload(nfts, collections, marketlogs) {
             if (marketlog.dataValues.status_code == 1 || marketlog.dataValues.status_code == 3) {
                 onMarket = marketlog.dataValues.status_code;
 
-                if (onMarket_integrity_checker == false) {
-                    onMarket_integrity_checker = true;
-                } 
-                else {
+                if (onMarket_integrity_checker == true) {
                     console.log(`there is a integrity Issue of MarketLogs at (id : ${marketlog.dataValues.id})`);
                 };
+
+                onMarket_integrity_checker = true;
             };
 
             return {
@@ -65,6 +65,18 @@ function makePayload(nfts, collections, marketlogs) {
             }
         });
 
+        let onMarketLog = [];
+
+        // onMarket log 찾기 // 이렇게 주는게 프론트에서 더 편할듯
+            // 혹시 잘못되서 여러개 있는 경우에도 마지막 마켓 로그를 넘겨줄 수 있도록 했다.
+            // 여러개 있는것은 위에서 체크된걸로 확인 될테니 일단은 응답을 주고 데이더베이스 무결성은 후에 고치면 된다. 그동안에도 클라이언트는 문제없이 서비스를 이용할 수 있을것. 하지만 그런일은 안생길것이다:)
+        if (onMarket !== 0) {
+            onMarketLog = marketlogs_payload.filter(marketlog => marketlog.status_code === onMarket);
+        }
+
+        // history 만들기 // 프론트에서 이렇게 받는게 더 필요할듯
+        const history = marketlogs_payload.filter(marketlog => marketlog.status_code === 2 || marketlog.status_code === 4 || marketlog.status_code === 5);
+
         return {
             id: nft.id,
             collection_id: collection.dataValues.id,
@@ -75,7 +87,8 @@ function makePayload(nfts, collections, marketlogs) {
             creater_account: nft.creater_account,
             owner_account: nft.owner_account,
             onMarket: onMarket,
-            marketlog: marketlogs_payload
+            onMarketLog: onMarketLog[onMarketLog.length-1],
+            history: history
         }
     });
     return result;

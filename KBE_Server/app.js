@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: ["https://localhost:3000", "https://localhost:3001"],
     credentials: true,
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: ["GET", "POST", "OPTIONS", "PATCH"],
   })
 );
 app.use(cookieParser());
@@ -36,10 +36,10 @@ app.post("/logout", routes.logout);
 app.get("/items/collections/", routes.collections);
 app.get("/items/nfts/:col_id", routes.nfts);
 // app.post("/items/collections/create", routes.createCollection);
-app.post("/items/nfts/mint", routes.mint);
+app.post("/items/nfts/mint/", routes.mint);
 
 // 거래
-app.post("/transactions/buy", routes.buy);
+app.patch("/transactions/buy/", routes.buy);
 
 const HTTPS_PORT = process.env.HTTPS_PORT;
 

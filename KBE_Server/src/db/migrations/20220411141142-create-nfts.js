@@ -19,14 +19,16 @@ module.exports = {
       },
       ipfs: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       creater_account: {
         type: Sequelize.STRING
       },
       owner_account: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        defaultValue: null
       },
       createdAt: {
         allowNull: false,

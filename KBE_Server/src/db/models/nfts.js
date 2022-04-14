@@ -33,12 +33,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     ipfs: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     creater_account: DataTypes.STRING,
     owner_account: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     sequelize,
