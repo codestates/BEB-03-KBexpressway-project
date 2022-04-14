@@ -34,7 +34,7 @@ module.exports = {
         sale_token: "WETH",
         status_code: 2,
         buyer_account: "0x08A46De58d48920448D4e909020FE1560f0c411A",
-        transaction_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        transaction_hash: "0x000000000000000000000000000000000000000000000000000000000000000",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -73,7 +73,7 @@ module.exports = {
         sale_token: "WETH",
         status_code: 4,
         buyer_account: "0x08A46De58d48920448D4e909020FE1560f0c411A",
-        transaction_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        transaction_hash: "0x00000000000000000000000000000000000000000000000000000000000000",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()

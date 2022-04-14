@@ -19,7 +19,8 @@ module.exports = {
       },
       ipfs: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       creater_account: {
         type: Sequelize.STRING
