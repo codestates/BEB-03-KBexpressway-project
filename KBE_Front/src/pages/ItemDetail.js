@@ -1,7 +1,14 @@
 import collectionData from "../data/collectionData.json";
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import Web3 from "web3";
+import abi from "../data/abi";
 
 function ItemDetail({ match, location }) {
+    const [web3, setWeb3] = useState();
+	const [account, setAccount] = useState("");
+	const [newErc721addr, setNewErc721Addr] = useState();
+
     console.log('location', location);
     const metadata = location.meta;
     const nft = location.nft;
@@ -11,10 +18,31 @@ function ItemDetail({ match, location }) {
     // const collection = collectionData.filter((collection) => {
     //     return collection.collectionId === nft.data.collectionId;
     // })[0];
+
+    useEffect(() => {
+		// window.ethereum이 있다면
+		if (typeof window.ethereum !== "undefined") {
+			try {
+				const web = new Web3(window.ethereum); // 새로운 web3 객체를 만든다
+				setWeb3(web);
+				setNewErc721Addr(contractAddr);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	}, []);
+
+    const handleBuy = (e) => {
+        // 컨트랙트 연동
+
+        // mint 함수 실행
+
+        // transfer 함수 실행
+    }
     
     return (
     <main id="main">
-            {console.log('nft', nft)}
+        {console.log('nft', nft)}
         {console.log('meta',metadata)}
         <section className="breadcrumbs">
             <div className="container">
@@ -57,9 +85,11 @@ function ItemDetail({ match, location }) {
                                         <strong>Name</strong>: {metadata.name}</li>
                                     <li>
                                         <strong>Price</strong>: 
-                                        {`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`}</li>
+                                        {`${String(nft.onMarketLog.sale_price)} ETH`}</li>
                                     <li>
-                                        <button className="btn btn-primary">Buy now</button>
+                                        {nft.onMarketLog.buyer_account === null ? 
+                                        <button className="btn btn-primary" onClick={handleBuy}>Buy now</button> : null}
+                                        {/* <button className="btn btn-primary" >Buy now</button> */}
                                     </li>
                                 </ul>
                             </div>
@@ -80,14 +110,16 @@ function ItemDetail({ match, location }) {
 
                 <div className="row">
                     <div className="row gy-4">
-                        {metadata.attributes.map((trait) => { return (
+                            {metadata.attributes !== undefined ?
+                                metadata.attributes.map((trait) => {
+                                    return (
                             <div className="col-md-6">
                                 <div className="info-box">
                                     <h3>{trait.trait_type}</h3>
                                     <h4>{trait.value}</h4>
                                 </div>
                             </div>
-                        ); })}
+                        ); }) : null}
                     </div>
                 </div>
             </div>

@@ -14,7 +14,11 @@ function Item({ nft }) {
       await axios.get(nft.ipfs)
         .then((res) => {
           console.log(res.data);
-          setMeta(res.data);
+          let data = res.data;
+          if (data.image.startsWith('ipfs://')) {
+            data.image = "http://ipfs.io/ipfs/" + String(data.image).split('//')[1];
+          }
+          setMeta(data);
       })
     }
     getMetadata();

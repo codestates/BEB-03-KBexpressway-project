@@ -1,5 +1,4 @@
 import Item from "./Item.js";
-import nftData from "../data/nftData.json";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -17,29 +16,43 @@ function ItemListContainer({ collectionId, opt }) {
       })
     }
     getAllNfts();
+
+    if (opt === "createrAccount") {
+      let nftData = nftList.filter((nft) => {
+        return (
+          nft.creater_account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
+        );
+      });
+      setNftList(nftData);
+    } else {
+      let nftData = nftList.filter((nft) => {
+        return nft.owner_Account === "0x08A46De58d48920448D4e909020FE1560f0c411A";
+      });
+      setNftList(nftData);
+    }
   }, []);
 
-  // 콜렉션 상관없이 전체 NFT 목록 출력할때
-  if (Number(collectionId) === 0) {
+  // // 콜렉션 상관없이 전체 NFT 목록 출력할때
+  // if (Number(collectionId) === 0) {
 
-  } else if (collectionId !== undefined) {
-    nftList = nftData.filter((nft) => {
-      return Number(nft.data.collectionId) === Number(collectionId);
-    });
-    setNftList(nftList);
-  } else if (opt === "createrAccount") {
-    nftList = nftData.filter((nft) => {
-      return (
-        nft.createrAccount === "0x08A46De58d48920448D4e909020FE1560f0c411A"
-      );
-    });
-    setNftList(nftList);
-  } else if (opt === "ownerAccount") {
-    nftList = nftData.filter((nft) => {
-      return nft.ownerAccount === "0x08A46De58d48920448D4e909020FE1560f0c411A";
-    });
-    setNftList(nftList);
-  }
+  // } else if (collectionId !== undefined) {
+  //   let nftData = nftList.filter((nft) => {
+  //     return Number(nft.data.collectionId) === Number(collectionId);
+  //   });
+  //   setNftList(nftData);
+  // } else if (opt === "createrAccount") {
+  //   let nftData = nftList.filter((nft) => {
+  //     return (
+  //       nft.creater_account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
+  //     );
+  //   });
+  //   setNftList(nftData);
+  // } else if (opt === "ownerAccount") {
+  //   let nftData = nftList.filter((nft) => {
+  //     return nft.owner_Account === "0x08A46De58d48920448D4e909020FE1560f0c411A";
+  //   });
+  //   setNftList(nftData);
+  // }
 
   return (
     <div className="container">
