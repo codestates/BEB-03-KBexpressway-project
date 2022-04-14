@@ -1,9 +1,10 @@
+import initialState from "./initialState";
+
 // Action
 const SET_TOKEN = "SET_TOKEN";
 const UNSET_TOKEN = "UNSET_TOKEN";
 
 // Action 생성 함수
-
 export const setToken = (accessToken) => {
   return {
     type: SET_TOKEN,
@@ -17,10 +18,6 @@ export const unsetToken = () => {
   return {
     type: UNSET_TOKEN,
   };
-};
-
-const initialState = {
-  token: "",
 };
 
 // Reducer

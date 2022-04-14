@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 
 const WalletItem = memo(({ children, setAccessToken }) => {
   const [web3, setWeb3] = useState();
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       try {
@@ -45,6 +45,7 @@ const WalletItem = memo(({ children, setAccessToken }) => {
         onClick={() => {
           connectWallet();
         }}
+        style={{ cursor: "pointer" }}
       >
         <div className="feature-box d-flex align-items-center">
           <i className="bi bi-wallet"></i>
