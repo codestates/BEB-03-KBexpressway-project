@@ -56,7 +56,8 @@ function ItemDetail({ match, location }) {
                                     <li>
                                         <strong>Name</strong>: {metadata.name}</li>
                                     <li>
-                                        <strong>Price</strong>: {nft.price}</li>
+                                        <strong>Price</strong>: 
+                                        {`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`}</li>
                                     <li>
                                         <button className="btn btn-primary">Buy now</button>
                                     </li>
