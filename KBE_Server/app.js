@@ -3,6 +3,8 @@ const fs = require("fs");
 const https = require("https");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const jwtMiddleware = require("./src/lib/jwtMiddleware");
+const checkLoggedIn = require("./src/lib/checkLoggedIn");
 
 const express = require("express");
 const app = express();
@@ -23,8 +25,8 @@ app.use(cookieParser());
 app.get("/", (req, res) => { res.send("KBE Backend Server"); });
 
 // 인증
-// app.post("/login", routes.login);
-// app.post("/logout", routes.logout);
+app.post("/login", routes.login);
+app.post("/logout", routes.logout);
 // app.get("/accesstokenrequest", routes.accTokenReq);
 // app.get("/refreshtokenrequest", routes.refTokenReq);
 
@@ -37,7 +39,7 @@ app.post("/items/nfts/mint/", routes.mint);
 // 거래
 app.patch("/transactions/buy/", routes.buy);
 
-const HTTPS_PORT = process.env.HTTPS_PORT;
+const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
 
 let server;
 
