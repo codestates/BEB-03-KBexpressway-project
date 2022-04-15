@@ -2,10 +2,13 @@ import { Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import ItemListContainer from "../components/ItemListContainer";
 import Table from "../components/Table";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Mypage() {
   const [selectedTab, setTab] = useState(0);
   const [opt, setOpt] = useState("ownerAccount");
+  const accessToken = useSelector((state) => state.tokenReducer).token;
 
   useEffect(
     function () {
@@ -61,6 +64,7 @@ function Mypage() {
         </Nav>
         {selectedTab < 2 ? <ItemListContainer opt={opt} /> : <Table />}
       </div>
+      {accessToken == "" && <Redirect to="/" />}
     </section>
   );
 }
