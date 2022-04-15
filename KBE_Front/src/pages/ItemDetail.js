@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import abi from "../kbNftAbi";
 import { useSelector } from "react-redux";
+import axios from 'axios';
 
 function ItemDetail({ match, location }) {
   const contractAddr = "0x3b177164da42627d5c70eb3a55e768c723d5322b";
   const [web3, setWeb3] = useState();
-  const [account, setAccount] = useState("");
   const [newErc721addr, setNewErc721Addr] = useState();
   const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
   const buyer_account = walletAddr;
@@ -16,7 +16,7 @@ function ItemDetail({ match, location }) {
   console.log("location", location);
   const metadata = location.meta;
   const nft = location.nft;
-  const tokenId = match.params.tokenId;
+//   const tokenId = match.params.tokenId;
 
   // 해당 nft가 속한 컬렉션 페이지로 이동하도록 할 때 사용
   // const collection = collectionData.filter((collection) => {
@@ -37,22 +37,38 @@ function ItemDetail({ match, location }) {
   }, []);
 
   const handleBuy = async (e) => {
+    
     // 컨트랙트 연동
     const contract = await new web3.eth.Contract(abi, newErc721addr);
     // mint 함수 실행
-    const result = await contract.methods
+    const mintResult = await contract.methods
       .mintNFT(buyer_account, nft.ipfs)
       .send({
         from: buyer_account,
         gasLimit: 285000,
         value: 0,
       });
-    console.log("mint", result);
+    console.log("mint", mintResult);
     const totalSupply = await contract.methods.totalSupply().call();
-    console.log("totalSupply", totalSupply);
+      console.log("totalSupply", totalSupply);
+    
     // // transfer 함수 실행
-    // const transferResult = await contract.methods.transfer(nft.creater_account, )
-  };
+    // const transferResult = await contract.methods.transfer(nft.creater_account, buyer_account, nft.onMarketLog.sale_price).call();
+    // console.log("transfer", transferResult);
+    // 벡엔드로 거래 정보 전달
+    // const url = "http://localhost:4000/transactions/buy/";
+    // const payload = {
+    //     "nftId": nft.id,
+    //     "paymentTransactionHash": transferResult.transactionHash",
+    //     "nftTransactionHash": mintResult.transactionHash,
+    //     "buyerAccount": "0x00000000000",
+    //     "onMarketLogId": nft.onMarket
+    // };
+    // axios.patch(url, payload)
+    // .then((res) => {
+    //     console.log(res.data);
+    // })
+};
 
   return (
     <main id="main">
@@ -96,12 +112,13 @@ function ItemDetail({ match, location }) {
                     <li>
                       <strong>Name</strong>: {metadata.name}
                     </li>
+                    {nft.last_price !== null ? (<li>
+                      <strong>Price</strong> :
+                    {nft.onMarket === 0 ? (nft.last_price) : (`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`)}
+                    {/* {`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`} */}
+                    </li>) : null}
                     <li>
-                      <strong>Price</strong>:
-                      {`${String(nft.onMarketLog.sale_price)} ETH`}
-                    </li>
-                    <li>
-                      {nft.onMarketLog.buyer_account === null ? (
+                        {(nft.onMarket === 1 || nft.onMarket === 3) && nft.creater_account !== buyer_account && walletAddr !== '' ?  (
                         <button className="btn btn-primary" onClick={handleBuy}>
                           Buy now
                         </button>
@@ -130,7 +147,7 @@ function ItemDetail({ match, location }) {
                     return (
                       <div className="col-md-6">
                         <div className="info-box">
-                          <h3>{trait.trait_type}</h3>
+                          <h3>{trait.type || trait.trait_type}</h3>
                           <h4>{trait.value}</h4>
                         </div>
                       </div>
