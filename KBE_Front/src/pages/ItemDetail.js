@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import axios from 'axios';
 
 function ItemDetail({ match, location }) {
-  const contractAddr = "0x3b177164da42627d5c70eb3a55e768c723d5322b";
+  const contractAddr = "0x4bf61347473046bd5f119e855f0beb1e3921fd6e";
   const [web3, setWeb3] = useState();
   const [newErc721addr, setNewErc721Addr] = useState();
   const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
@@ -42,32 +42,29 @@ function ItemDetail({ match, location }) {
     const contract = await new web3.eth.Contract(abi, newErc721addr);
     // mint 함수 실행
     const mintResult = await contract.methods
-      .mintNFT(buyer_account, nft.ipfs)
-      .send({
+    .mintNFT(buyer_account, nft.ipfs, nft.creater_account)
+    .send({
         from: buyer_account,
         gasLimit: 285000,
-        value: 0,
-      });
+        value: (Number(nft.onMarketLog.sale_price) * 1000000000000000000),
+    });
     console.log("mint", mintResult);
     const totalSupply = await contract.methods.totalSupply().call();
-      console.log("totalSupply", totalSupply);
+    console.log("totalSupply", totalSupply);
     
-    // // transfer 함수 실행
-    // const transferResult = await contract.methods.transfer(nft.creater_account, buyer_account, nft.onMarketLog.sale_price).call();
-    // console.log("transfer", transferResult);
     // 벡엔드로 거래 정보 전달
-    // const url = "http://localhost:4000/transactions/buy/";
-    // const payload = {
-    //     "nftId": nft.id,
-    //     "paymentTransactionHash": transferResult.transactionHash",
-    //     "nftTransactionHash": mintResult.transactionHash,
-    //     "buyerAccount": "0x00000000000",
-    //     "onMarketLogId": nft.onMarket
-    // };
-    // axios.patch(url, payload)
-    // .then((res) => {
-    //     console.log(res.data);
-    // })
+    const url = "http://localhost:4000/transactions/buy/";
+    const payload = {
+        "nftId": nft.id,
+        "transactionHash": mintResult.transactionHash,
+        "buyerAccount": buyer_account,
+        "onMarketLogId": nft.onMarket
+    };
+    console.log(payload);
+    axios.patch(url, payload)
+    .then((res) => {
+        console.log(res.data);
+    })
 };
 
   return (
