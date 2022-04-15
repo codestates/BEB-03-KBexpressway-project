@@ -13,6 +13,10 @@ module.exports = {
     */
      await queryInterface.bulkInsert('MarketLogs',
      [
+       // 가상의 account
+       // 민팅한놈: 0x0000000000000000000000000000000000000000
+       // 싹 구매하고 에어드랍까지 받은 놈: 0x08A46De58d48920448D4e909020FE1560f0c411A
+       // 2차 거래자들 0x0006700000000 , 0x000000005578760000 , 0x0000007635005578760000
        {
         id: 1,
         nft_id: 1,
@@ -21,8 +25,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 4,
         buyer_account: '0x08A46De58d48920448D4e909020FE1560f0c411A',
-        nft_transaction_hash: '0x1',
-        payment_transaction_hash: '0x01',
+        transaction_hash: '0x1',
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -35,8 +38,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 4,
         buyer_account: "0x08A46De58d48920448D4e909020FE1560f0c411A",
-        nft_transaction_hash: "0x2",
-        payment_transaction_hash: "0x02",
+        transaction_hash: "0x2",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -49,8 +51,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 4,
         buyer_account: '0x08A46De58d48920448D4e909020FE1560f0c411A',
-        nft_transaction_hash: '0x3',
-        payment_transaction_hash: '0x03',
+        transaction_hash: '0x3',
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -63,8 +64,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 3,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -77,8 +77,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 3,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -91,8 +90,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 3,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -105,8 +103,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 3,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -119,8 +116,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 5,
         buyer_account: "0x08A46De58d48920448D4e909020FE1560f0c411A",
-        nft_transaction_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-        payment_transaction_hash: "0x0000000000000000000000000000000000030000000000000000000000000",
+        transaction_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -133,8 +129,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 2,
         buyer_account: "0x0006700000000",
-        nft_transaction_hash: "0x9",
-        payment_transaction_hash: "0x09",
+        transaction_hash: "0x9",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -147,8 +142,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 2,
         buyer_account: "0x000000005578760000",
-        nft_transaction_hash: "0x10",
-        payment_transaction_hash: "0x010",
+        transaction_hash: "0x10",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -161,8 +155,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 2,
         buyer_account: "0x0000007635005578760000",
-        nft_transaction_hash: "0x11",
-        payment_transaction_hash: "0x011",
+        transaction_hash: "0x11",
         transactedAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -175,8 +168,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 1,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -189,8 +181,7 @@ module.exports = {
         sale_token: "ETH",
         status_code: 1,
         buyer_account: null,
-        nft_transaction_hash: null,
-        payment_transaction_hash: null,
+        transaction_hash: null,
         transactedAt: null,
         createdAt: new Date(),
         updatedAt: new Date()

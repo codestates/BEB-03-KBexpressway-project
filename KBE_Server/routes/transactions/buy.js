@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     const data = req.body;
     
     // 요청 바디 체크
-    if (!data.nftId || !data.paymentTransactionHash || !data.nftTransactionHash || !data.buyerAccount || !data.onMarketLogId) {
+    if (!data.nftId || !data.transactionHash || !data.buyerAccount || !data.onMarketLogId) {
         return res.status(422).send("Validation Error");
     };
 
@@ -37,34 +37,19 @@ module.exports = async (req, res) => {
         return res.status(404).send("Wrong MarketLog");
     }
     // transactionHash 값이 혹시 중복된 값은 아닌가?
-    const alExTx = await MarketLogs.findOne({ where: { [Op.or]: [
-        { nft_transaction_hash: data.nftTransactionHash },
-        { nft_transaction_hash: data.paymentTransactionHash },
-        { payment_transaction_hash: data.nftTransactionHash },
-        { payment_transaction_hash: data.paymentTransactionHash }
-    ] } })
+    const alExTx = await MarketLogs.findOne({ where: { transaction_hash: data.transactionHash } });
     if (alExTx) {
         return res.status(422).send("Duplicate TransactionHash");
-    }
+    };
 
     // 블록체인 네트워크에서 트렌젝션 확인 (nft, 지불) // 불필요한 과정으로 요청처리가 느려지는것 같지만 넣어봄
     if (ApiKey) {
-        const nftTx = await web3.eth.getTransaction(data.nftTransactionHash);
-        const paymentTx = await web3.eth.getTransaction(data.paymentTransactionHash);
-        if (!nftTx || !paymentTx) {
+        const txHs = await web3.eth.getTransaction(data.transactionHash);
+        if (!txHs) {
             return res.status(422).send("Transaction not found on Network");
         }
         else {
-            // // 구매자의 지갑에서 지불한 금액이 정상적인지 확인
-            // const paymentAmount = await web3.utils.fromWei(paymentTx.value, 'ether');
-            // if (paymentAmount !== marketLog.price) {
-            //     return res.status(422).send("Wrong Payment Amount");
-            // }
-            // // 두 트랜젝션의 account 가 일치하는지 확인, 마켓 로그와도 확안?
-            // if (nftTx.from !== paymentTx.to || ) {
-            //     return res.status(422).send("Wrong Transaction Account");
-            // }
-
+            // 
         }
     };
 
@@ -88,8 +73,7 @@ module.exports = async (req, res) => {
             .then( async (marketLog) => { await marketLog.increment('status_code', { by: 1 }); await marketLog.reload(); return marketLog; })
             .then(marketLog => { marketLog.update({
                     buyer_account: data.buyerAccount,
-                    nft_transaction_hash: data.nftTransactionHash,
-                    payment_transaction_hash: data.paymentTransactionHash,
+                    transaction_hash: data.transactionHash,
                     transactedAt: new Date()
                 });
                 return marketLog;
