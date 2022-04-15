@@ -15,15 +15,6 @@ function Nav({ accessToken }) {
           </a>
         </Link>
 
-        <div className="sidebar-item search-form">
-          <form action="">
-            <input type="text" placeholder="Search Items" />
-            <button type="submit">
-              <i class="bi bi-search"></i>
-            </button>
-          </form>
-        </div>
-
         <nav id="navbar" className="navbar">
           <ul>
             <li className="dropdown">
@@ -74,52 +65,14 @@ function Nav({ accessToken }) {
               </li>
             )}
             <li>
-              <a className="getstarted scrollto" href="#about">
-                Get Started
+              <a
+                className="getstarted scrollto"
+                href="https://github.com/codestates/BEB-03-KBexpressway-project"
+                target={"_blank"}
+              >
+                Github
               </a>
             </li>
-            {/* <li className="dropdown">
-              <a href="#">
-                <span>Drop Down</span> <i className="bi bi-chevron-down"></i>
-              </a>
-              <ul>
-                <li>
-                  <a href="#">Drop Down 1</a>
-                </li>
-                <li className="dropdown">
-                  <a href="#">
-                    <span>Deep Drop Down</span>{" "}
-                    <i className="bi bi-chevron-right"></i>
-                  </a>
-                  <ul>
-                    <li>
-                      <a href="#">Deep Drop Down 1</a>
-                    </li>
-                    <li>
-                      <a href="#">Deep Drop Down 2</a>
-                    </li>
-                    <li>
-                      <a href="#">Deep Drop Down 3</a>
-                    </li>
-                    <li>
-                      <a href="#">Deep Drop Down 4</a>
-                    </li>
-                    <li>
-                      <a href="#">Deep Drop Down 5</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#">Drop Down 2</a>
-                </li>
-                <li>
-                  <a href="#">Drop Down 3</a>
-                </li>
-                <li>
-                  <a href="#">Drop Down 4</a>
-                </li>
-              </ul>
-            </li> */}
           </ul>
           <i className="bi bi-list mobile-nav-toggle"></i>
         </nav>

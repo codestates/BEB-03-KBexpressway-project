@@ -39,11 +39,15 @@ const WalletItem = memo(({ children, setAccessToken, disabled }) => {
     });
   };
 
+  const popUp = () => {
+    alert("준비 중입니다");
+  };
+
   return (
     <div className="col-md-6">
       <a
         onClick={() => {
-          connectWallet();
+          disabled ? popUp() : connectWallet();
         }}
         style={{ cursor: "pointer" }}
       >
