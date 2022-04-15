@@ -23,6 +23,7 @@ const Create = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const accessToken = useSelector((state) => state.tokenReducer).token;
+  const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
 
   // 파일 선택 시 state 변경
   const handleFileInput = (e) => {
@@ -102,7 +103,7 @@ const Create = memo(() => {
         const payload = {
           ipfs: "http://ipfs.io/ipfs/" + String(metadata.url).split("//")[1],
           price: Number(price),
-          account: "0x0000000000000000000000000000000000000000",
+          account: walletAddr,
           collectionId: null,
           saleToken: null,
         };

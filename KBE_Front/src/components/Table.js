@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useTable } from "react-table";
 import nftTransaction from "../data/nftTransaction.json";
 
 const log = console.log;
 
-function Table() {
-  log(nftTransaction.result[0].to);
-  log(nftTransaction.result[0].from);
+function Table({ nftList }) {
+  // log(nftTransaction.result[0].to);
+  // log(nftTransaction.result[0].from);
+  // const [nftList, setNftList] = useState([]);
+
+  // useEffect(() => {
+  //   const url = "http://localhost:4000/items/nfts/0";
+  //   axios.get(url).then((res) => {
+  //     console.log(res.data.data);
+  //     setNftList(res.data.data);
+  //   });
+  // }, []);
+
+  // log(nftList[0]);
+
   const Styles = styled.div`
     padding: 1rem;
     table {
