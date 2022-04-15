@@ -46,11 +46,14 @@ contract kbNFTs is ERC721URIStorage, Ownable, ERC721Enumerable { // 2. 컨트랙
         return super.tokenURI(tokenId);
     }
 
-    function mintNFT(address recipient, string memory tokenURI)
+    function mintNFT(address recipient, string memory tokenURI, address seller)
+        payable
         public
-
         returns (uint256)
     {
+        require(seller != recipient); // 샐러랑 구매자 달라야함
+        uint256 price = msg.value; // 이거를 샐러 어드래스로 
+        payable(seller).transfer(price);
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
