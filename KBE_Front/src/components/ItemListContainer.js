@@ -9,17 +9,12 @@ function ItemListContainer({ collectionId, opt }) {
   const [nftList, setNftList] = useState([]);
   let allNftList;
 
-  console.log(`📌️ ItemListContainer opt :::: ${opt}`);
-
   useEffect(() => {
     // 벡엔드에 요청 전송해서 모든 NFT 정보 받아서 nfts 상태 변경
     const url = "http://localhost:4000/items/nfts/0";
     async function getAllNfts() {
       await axios.get(url).then((res) => {
-        // console.log(res.data.data);
-        // setNftList(res.data.data);
         allNftList = res.data.data;
-        console.log(`📌️ ItemListContainer allNftList :::: ${allNftList}`);
         if (opt === undefined) {
           setNftList(allNftList);
         } else if (opt === "createrAccount") {

@@ -26,7 +26,7 @@ function App() {
 
   const accessToken = useSelector((state) => state.tokenReducer).token;
   const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
-  console.log(`accessToken : 📌️${JSON.stringify(accessToken)}`);
+  // console.log(`accessToken : 📌️${JSON.stringify(accessToken)}`);
   console.log(`walletAddr : 📌️${JSON.stringify(walletAddr)}`);
   const dispatch = useDispatch();
 

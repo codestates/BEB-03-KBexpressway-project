@@ -1,61 +1,68 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useTable } from "react-table";
-import nftTransaction from "../data/nftTransaction.json";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const log = console.log;
+const Styles = styled.div`
+  padding: 1rem;
+  table {
+    width: 100%;
+    margin: 25px auto;
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    border-bottom: 2px solid #4154f1;
 
-function Table({ nftList }) {
-  // log(nftTransaction.result[0].to);
-  // log(nftTransaction.result[0].from);
-  // const [nftList, setNftList] = useState([]);
+    tr {
+      &:hover {
+        background: #f4f4f4;
 
-  // useEffect(() => {
-  //   const url = "http://localhost:4000/items/nfts/0";
-  //   axios.get(url).then((res) => {
-  //     console.log(res.data.data);
-  //     setNftList(res.data.data);
-  //   });
-  // }, []);
-
-  // log(nftList[0]);
-
-  const Styles = styled.div`
-    padding: 1rem;
-    table {
-      width: 100%;
-      margin: 25px auto;
-      border-collapse: collapse;
-      border: 1px solid #eee;
-      border-bottom: 2px solid #4154f1;
-
-      tr {
-        &:hover {
-          background: #f4f4f4;
-
-          td {
-            color: #555;
-          }
-        }
-      }
-      th,
-      td {
-        color: #999;
-        border: 1px solid #eee;
-        padding: 12px 35px;
-        border-collapse: collapse;
-      }
-      th {
-        background: #4154f1;
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 12px;
-        &.last {
-          border-right: none;
+        td {
+          color: #555;
         }
       }
     }
-  `;
+    th,
+    td {
+      color: #999;
+      border: 1px solid #eee;
+      padding: 12px 35px;
+      border-collapse: collapse;
+    }
+    th {
+      background: #4154f1;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 12px;
+      &.last {
+        border-right: none;
+      }
+    }
+  }
+`;
+
+function Table() {
+  const [transactionList, setTransactionList] = useState([]);
+  const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
+
+  useEffect(() => {
+    const url = `http://localhost:4000/items/marketlogs/${walletAddr}`;
+    axios.get(url).then((res) => {
+      let transactionData = res.data.data;
+      transactionData = transactionData.map((tx) => {
+        return {
+          Type: checkType(tx.status_code),
+          Item: tx.nftId,
+          Price: tx.sale_price + " ETH",
+          Quantity: 1,
+          From: getAddr(tx.seller_account),
+          To: getAddr(tx.buyter_account),
+          Time: tx.transactedAt,
+        };
+      });
+      setTransactionList(transactionData);
+    });
+  }, []);
 
   const columns = React.useMemo(
     () => [
@@ -96,39 +103,41 @@ function Table({ nftList }) {
   };
 
   const getLink = function (tx) {
-    return `https://rinkeby.etherscan.io/tx/${tx}`;
+    return `https://ropsten.etherscan.io/tx/${tx}`;
+  };
+
+  const getAddr = function (address) {
+    if (address === undefined) {
+      address = "-----";
+    }
+    return address === walletAddr ? "You" : address.slice(0, 5);
+  };
+
+  const checkType = function (type) {
+    if (type === 2) {
+      return "Sold";
+    } else if (type === 3) {
+      return "On Sale";
+    } else if (type === 4) {
+      return "Minted";
+    } else {
+      return "AirDrop";
+    }
   };
 
   const data = React.useMemo(
-    () => [
+    () => transactionList,
+    [
       {
-        Type: "Minted",
-        Item: "Hello",
-        Price: "World",
-        Quantity: "1",
-        From: nftTransaction.result[0].from.slice(0, 6),
-        To: nftTransaction.result[0].to.slice(0, 6),
-        Time: (
-          <a href={getLink(nftTransaction.result[0].hash)} target="_blank">
-            {getTimeDifference(nftTransaction.result[0].timeStamp)}
-          </a>
-        ),
+        Type: "-----",
+        Item: "-----",
+        Price: "-----",
+        Quantity: "-----",
+        From: "-----",
+        To: "-----",
+        Time: "-----",
       },
-      {
-        Type: "Airdrop",
-        Item: "Hello",
-        Price: "World",
-        Quantity: "1",
-        From: nftTransaction.result[1].from.slice(0, 6),
-        To: nftTransaction.result[1].to.slice(0, 6),
-        Time: (
-          <a href={getLink(nftTransaction.result[1].hash)} target="_blank">
-            {getTimeDifference(nftTransaction.result[1].timeStamp)}
-          </a>
-        ),
-      },
-    ],
-    []
+    ]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
