@@ -24,9 +24,9 @@ const Wallet = memo(() => {
             <div className="col-lg-6 mt-5 mt-lg-0 d-flex">
               <div className="row align-self-center gy-4">
                 <WalletItem setAccessToken={setToken}>MetaMask</WalletItem>
-                <WalletItem>Coinbase Wallet</WalletItem>
-                <WalletItem>WalletConnect</WalletItem>
-                <WalletItem>Phantom</WalletItem>
+                <WalletItem disabled={true}>Coinbase Wallet</WalletItem>
+                <WalletItem disabled={true}>WalletConnect</WalletItem>
+                <WalletItem disabled={true}>Phantom</WalletItem>
               </div>
             </div>
           </div>

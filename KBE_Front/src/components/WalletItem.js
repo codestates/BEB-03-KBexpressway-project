@@ -3,7 +3,7 @@ import Web3 from "web3";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 
-const WalletItem = memo(({ children, setAccessToken }) => {
+const WalletItem = memo(({ children, setAccessToken, disabled }) => {
   const [web3, setWeb3] = useState();
   const dispatch = useDispatch();
 
