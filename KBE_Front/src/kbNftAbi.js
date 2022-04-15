@@ -190,6 +190,11 @@ let kbNftAbi = [
         name: "tokenURI",
         type: "string",
       },
+      {
+        internalType: "address",
+        name: "seller",
+        type: "address",
+      },
     ],
     name: "mintNFT",
     outputs: [
@@ -199,7 +204,7 @@ let kbNftAbi = [
         type: "uint256",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
