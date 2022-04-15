@@ -23,6 +23,7 @@ function ItemListContainer({ collectionId, opt }) {
       let nftData = nftList.filter((nft) => {
         return nft.creater_account === walletAddr;
       });
+      console.log();
       setNftList(nftData);
     } else if (opt === "ownerAccount") {
       let nftData = nftList.filter((nft) => {

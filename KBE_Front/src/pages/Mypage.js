@@ -17,21 +17,24 @@ function Mypage() {
     function () {
       if (selectedTab === 0) {
         setOpt("ownerAccount");
+        console.log(`📌️Collected`);
       } else if (selectedTab === 1) {
         setOpt("createrAccount");
+        console.log(`📌️Created`);
       } else {
-        const url = "http://localhost:4000/items/nfts/0";
+        console.log(`📌️Transaction`);
+        const url = `http://localhost:4000/items/marketlogs/${walletAddr}`;
         axios.get(url).then((res) => {
-          // console.log(res.data.data);
-          setNftList(res.data.data);
-          console.log(walletAddr);
-          let nftData = nftList.filter((nft) => {
-            return (
-              nft.creater_account === walletAddr ||
-              nft.owner_account === walletAddr
-            );
-          });
-          console.log(nftData);
+          console.log(res.data.data);
+          // let nftData = res.data.data;
+          // nftData = nftData.filter((nft) => {
+          //   return (
+          //     nft.creater_account ===
+          //       "0x08A46De58d48920448D4e909020FE1560f0c411A" ||
+          //     nft.owner_account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
+          //   );
+          // });
+          // console.log(nftData);
         });
       }
     },
