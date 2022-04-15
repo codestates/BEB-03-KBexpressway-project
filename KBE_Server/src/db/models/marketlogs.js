@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'ETH'
     },
-    status_code: {
+    status_code: { // 0: 실행되지않고 취소된 로그, 1: 판매중, 2: 판매완료, 3: 민팅중, 4: 민팅완료, 5: 에어드랍
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -46,12 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    nft_transaction_hash: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      unique: true
-    },
-    payment_transaction_hash: {
+    transaction_hash: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true
