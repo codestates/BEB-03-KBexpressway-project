@@ -12,7 +12,7 @@ function Item({ nft }) {
     // 벡엔드에 요청 전송해서 모든 NFT 정보 받아서 nfts 상태 변경
     async function getMetadata() {
       await axios.get(nft.ipfs).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         let data = res.data;
         if (data.image.startsWith("ipfs://")) {
           data.image =

@@ -1,34 +1,34 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('MarketLogs', {
+    await queryInterface.createTable("MarketLogs", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       nft_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Nfts',
-          key: 'id',
+          model: "Nfts",
+          key: "id",
         },
-        onDelete: 'RESTRICT',
-        allowNull: false
+        onDelete: "RESTRICT",
+        allowNull: false,
       },
       seller_account: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       sale_price: {
         type: Sequelize.FLOAT,
-        allowNull: false
+        allowNull: false,
       },
       sale_token: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'ETH'
+        defaultValue: "ETH",
       },
       status_code: {
         type: Sequelize.INTEGER,
@@ -36,28 +36,28 @@ module.exports = {
       },
       buyer_account: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
       },
       transaction_hash: {
         type: Sequelize.STRING,
         allowNull: true,
-        unique: true
+        unique: true,
       },
       transactedAt: {
         type: Sequelize.DATE,
-        allowNull: true
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('MarketLogs');
-  }
+    await queryInterface.dropTable("MarketLogs");
+  },
 };
