@@ -10,36 +10,36 @@ function Mypage() {
   const [selectedTab, setTab] = useState(0);
   const [opt, setOpt] = useState("ownerAccount");
   const accessToken = useSelector((state) => state.tokenReducer).token;
-  const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
-  const [nftList, setNftList] = useState([]);
+  // const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
+  // const [nftList, setNftList] = useState([]);
 
-  useEffect(
-    function () {
-      if (selectedTab === 0) {
-        setOpt("ownerAccount");
-        console.log(`📌️Collected`);
-      } else if (selectedTab === 1) {
-        setOpt("createrAccount");
-        console.log(`📌️Created`);
-      } else {
-        console.log(`📌️Transaction`);
-        const url = `http://localhost:4000/items/marketlogs/${walletAddr}`;
-        axios.get(url).then((res) => {
-          console.log(res.data.data);
-          // let nftData = res.data.data;
-          // nftData = nftData.filter((nft) => {
-          //   return (
-          //     nft.creater_account ===
-          //       "0x08A46De58d48920448D4e909020FE1560f0c411A" ||
-          //     nft.owner_account === "0x08A46De58d48920448D4e909020FE1560f0c411A"
-          //   );
-          // });
-          // console.log(nftData);
-        });
-      }
-    },
-    [selectedTab]
-  );
+  // useEffect(
+  //   function () {
+  //     if (selectedTab === 0) {
+  //       console.log("📌️ Collected 진입 ");
+  //       // console.log(opt);
+  //       // setOpt("ownerAccount");
+  //     } else if (selectedTab === 1) {
+  //       console.log("📌️ Created 진입 ");
+  //       // console.log(opt);
+  //       // setOpt("createrAccount");
+  //     } else {
+  //       console.log("📌️ Transaction 진입 ");
+  //       // const url = "http://localhost:4000/items/nfts/0";
+  //       // axios.get(url).then((res) => {
+  //       //   setNftList(res.data.data);
+  //       //   console.log(walletAddr);
+  //       //   let nftData = nftList.filter((nft) => {
+  //       //     return (
+  //       //       nft.creater_account === walletAddr ||
+  //       //       nft.owner_account === walletAddr
+  //       //     );
+  //       //   });
+  //       // });
+  //     }
+  //   },
+  //   [selectedTab, opt]
+  // );
 
   return (
     <section id="features" className="features">
@@ -54,6 +54,7 @@ function Mypage() {
               eventKey="link-0"
               onClick={() => {
                 setTab(0);
+                setOpt("ownerAccount");
               }}
             >
               Collected
@@ -64,6 +65,7 @@ function Mypage() {
               eventKey="link-1"
               onClick={() => {
                 setTab(1);
+                setOpt("createrAccount");
               }}
             >
               Created
@@ -80,11 +82,7 @@ function Mypage() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        {selectedTab < 2 ? (
-          <ItemListContainer opt={opt} />
-        ) : (
-          <Table nftList={nftList} />
-        )}
+        {selectedTab < 2 ? <ItemListContainer opt={opt} /> : <Table />}
       </div>
       {accessToken == "" && <Redirect to="/" />}
     </section>
