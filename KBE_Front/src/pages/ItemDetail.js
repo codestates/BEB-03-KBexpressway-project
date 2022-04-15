@@ -5,11 +5,14 @@ import Web3 from "web3";
 import abi from "../kbNftAbi";
 import { useSelector } from "react-redux";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 function ItemDetail({ match, location }) {
   const contractAddr = "0x4bf61347473046bd5f119e855f0beb1e3921fd6e";
   const [web3, setWeb3] = useState();
   const [newErc721addr, setNewErc721Addr] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
   const buyer_account = walletAddr;
 
@@ -37,7 +40,7 @@ function ItemDetail({ match, location }) {
   }, []);
 
   const handleBuy = async (e) => {
-    
+    setIsLoading(true);
     // 컨트랙트 연동
     const contract = await new web3.eth.Contract(abi, newErc721addr);
     // mint 함수 실행
@@ -64,6 +67,8 @@ function ItemDetail({ match, location }) {
     axios.patch(url, payload)
     .then((res) => {
         console.log(res.data);
+        setIsLoading(false);
+        setIsCompleted(true);
     })
 };
 
@@ -86,8 +91,14 @@ function ItemDetail({ match, location }) {
           <h2>{metadata.name}</h2>
         </div>
       </section>
-
-      <section id="portfolio-details" className="portfolio-details">
+      {isLoading === true ? 
+      (<section id="portfolio" className="portfolio">
+          <header className="section-header">
+            <h2>거래 진행 중</h2>
+            <h4>페이지를 이동하지 마세요!</h4>
+          </header>
+        </section>) 
+      : (isCompleted === true ? (<Redirect to="/mypage" />) : (<section id="portfolio-details" className="portfolio-details">
         <div className="container">
           <div className="row gy-4">
             <div className="col-lg-8">
@@ -155,7 +166,8 @@ function ItemDetail({ match, location }) {
             </div>
           </div>
         </div>
-      </section>
+      </section>))}
+      
     </main>
   );
 }
