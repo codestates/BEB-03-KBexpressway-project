@@ -4,11 +4,14 @@ import ItemListContainer from "../components/ItemListContainer";
 import Table from "../components/Table";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Mypage() {
   const [selectedTab, setTab] = useState(0);
   const [opt, setOpt] = useState("ownerAccount");
   const accessToken = useSelector((state) => state.tokenReducer).token;
+  const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
+  const [nftList, setNftList] = useState([]);
 
   useEffect(
     function () {
@@ -17,7 +20,19 @@ function Mypage() {
       } else if (selectedTab === 1) {
         setOpt("createrAccount");
       } else {
-        console.log("Transaction");
+        const url = "http://localhost:4000/items/nfts/0";
+        axios.get(url).then((res) => {
+          // console.log(res.data.data);
+          setNftList(res.data.data);
+          console.log(walletAddr);
+          let nftData = nftList.filter((nft) => {
+            return (
+              nft.creater_account === walletAddr ||
+              nft.owner_account === walletAddr
+            );
+          });
+          console.log(nftData);
+        });
       }
     },
     [selectedTab]
@@ -62,7 +77,11 @@ function Mypage() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        {selectedTab < 2 ? <ItemListContainer opt={opt} /> : <Table />}
+        {selectedTab < 2 ? (
+          <ItemListContainer opt={opt} />
+        ) : (
+          <Table nftList={nftList} />
+        )}
       </div>
       {accessToken == "" && <Redirect to="/" />}
     </section>
