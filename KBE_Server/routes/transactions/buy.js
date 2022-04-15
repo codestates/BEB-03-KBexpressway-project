@@ -42,14 +42,24 @@ module.exports = async (req, res) => {
         return res.status(422).send("Duplicate TransactionHash");
     };
 
-    // 블록체인 네트워크에서 트렌젝션 확인 (nft, 지불) // 불필요한 과정으로 요청처리가 느려지는것 같지만 넣어봄
+    // 블록체인 네트워크에서 트렌젝션 확인 (nft, 지불) // 당장 이 서비스에서는 불필요한 과정이지만 백서버에서 검증해보고 싶어서 넣어봄
+    // 사용하고 싶을때만 .env 에 ApiKey 기입하기
     if (ApiKey) {
         const txHs = await web3.eth.getTransaction(data.transactionHash);
         if (!txHs) {
             return res.status(422).send("Transaction not found on Network");
         }
         else {
-            // 
+            // 구매자 판매자 검사
+            const checkerByAddress = txHs.from !== data.buyerAccount && txHs.to === data.buyerAccount && txHs.from === marketLog.seller_account;
+            if (!checkerByAddress) {
+                return res.status(422).send("Error: Wrong buyer or seller");
+            }
+            // 지불 금액 검사 (여기서는 ETH 라고 가정하고 진행한다. 나중에 다른 결제수단이 생기면 )
+            const checkerByPrice = txHs.value === (marketLog.price * 1000000000000000000n).toString();
+            if (!checkerByPrice) {
+                return res.status(422).send("Error: Wrong Payment");
+            }
         }
     };
 
@@ -85,4 +95,5 @@ module.exports = async (req, res) => {
     const payload = {updatedNft : updatedNft, updatedMarketLog : updatedMarketLog};
 
     res.status(200).send({data : payload, message: 'Successful Response'});
+
 };
