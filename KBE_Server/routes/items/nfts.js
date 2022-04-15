@@ -89,7 +89,8 @@ function makePayload(nfts, collections, marketlogs) {
                 sale_token: marketlog.dataValues.sale_token,
                 status_code: marketlog.dataValues.status_code,
                 buyer_account: marketlog.dataValues.buyer_account,
-                transaction_hash: marketlog.dataValues.transaction_hash,
+                nft_transaction_hash: marketlog.dataValues.nft_transaction_hash,
+                payment_transaction_hash: marketlog.dataValues.payment_transaction_hash,
                 transactedAt: marketlog.dataValues.transactedAt
             }
         });

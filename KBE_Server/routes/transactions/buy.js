@@ -1,11 +1,20 @@
 const { Nfts, Collections, MarketLogs } = require('../../src/db/models');
+const { Op } = require('sequelize');
+
+const Web3 = require("web3");
+require('dotenv').config();
+
+const ApiKey = process.env.INFURA_PROJECTID;
+const rpcURL = `https://ropsten.infura.io/v3/${ApiKey}`;
+
+const web3 = new Web3(rpcURL);
 
 module.exports = async (req, res) => {
 
     const data = req.body;
     
     // 요청 바디 체크
-    if (!data.nftId || !data.transactionHash || !data.buyerAccount || !data.onMarketLogId) {
+    if (!data.nftId || !data.paymentTransactionHash || !data.nftTransactionHash || !data.buyerAccount || !data.onMarketLogId) {
         return res.status(422).send("Validation Error");
     };
 
@@ -28,12 +37,36 @@ module.exports = async (req, res) => {
         return res.status(404).send("Wrong MarketLog");
     }
     // transactionHash 값이 혹시 중복된 값은 아닌가?
-    const alExTx = await MarketLogs.findOne({ where: { transaction_hash: data.transactionHash } })
+    const alExTx = await MarketLogs.findOne({ where: { [Op.or]: [
+        { nft_transaction_hash: data.nftTransactionHash },
+        { nft_transaction_hash: data.paymentTransactionHash },
+        { payment_transaction_hash: data.nftTransactionHash },
+        { payment_transaction_hash: data.paymentTransactionHash }
+    ] } })
     if (alExTx) {
         return res.status(422).send("Duplicate TransactionHash");
     }
 
-    // 블록체인 네트워크에서 트렌젝션 확인하는것 구현해보기 (실제로는 트렌젝션이 완료되기까지 시간이 좀 걸리기 때문에 일단 DB업데이트 하고 일정 시간 뒤에 트렌젝션을 확인해서 문제가 있을때만 조치를 취하는게 현실적일것 같다.)
+    // 블록체인 네트워크에서 트렌젝션 확인 (nft, 지불) // 불필요한 과정으로 요청처리가 느려지는것 같지만 넣어봄
+    if (ApiKey) {
+        const nftTx = await web3.eth.getTransaction(data.nftTransactionHash);
+        const paymentTx = await web3.eth.getTransaction(data.paymentTransactionHash);
+        if (!nftTx || !paymentTx) {
+            return res.status(422).send("Transaction not found on Network");
+        }
+        else {
+            // // 구매자의 지갑에서 지불한 금액이 정상적인지 확인
+            // const paymentAmount = await web3.utils.fromWei(paymentTx.value, 'ether');
+            // if (paymentAmount !== marketLog.price) {
+            //     return res.status(422).send("Wrong Payment Amount");
+            // }
+            // // 두 트랜젝션의 account 가 일치하는지 확인, 마켓 로그와도 확안?
+            // if (nftTx.from !== paymentTx.to || ) {
+            //     return res.status(422).send("Wrong Transaction Account");
+            // }
+
+        }
+    };
 
     // Nfts 업데이트
     let updatedNft;
@@ -55,7 +88,8 @@ module.exports = async (req, res) => {
             .then( async (marketLog) => { await marketLog.increment('status_code', { by: 1 }); await marketLog.reload(); return marketLog; })
             .then(marketLog => { marketLog.update({
                     buyer_account: data.buyerAccount,
-                    transaction_hash: data.transactionHash,
+                    nft_transaction_hash: data.nftTransactionHash,
+                    payment_transaction_hash: data.paymentTransactionHash,
                     transactedAt: new Date()
                 });
                 return marketLog;

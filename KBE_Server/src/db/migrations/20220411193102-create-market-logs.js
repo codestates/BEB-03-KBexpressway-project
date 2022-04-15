@@ -38,7 +38,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      transaction_hash: {
+      nft_transaction_hash: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+      },
+      payment_transaction_hash: {
         type: Sequelize.STRING,
         allowNull: true,
         unique: true
