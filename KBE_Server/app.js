@@ -36,6 +36,7 @@ app.post("/walletAddr", routes.walletAddr);
 // 아이템
 app.get("/items/collections/", routes.collections);
 app.get("/items/nfts/:col_id", routes.nfts);
+app.get("/items/marketlogs/:account", routes.marketlogs);
 // app.post("/items/collections/create", routes.createCollection);
 app.post("/items/nfts/mint/", routes.mint);
 

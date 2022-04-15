@@ -89,7 +89,8 @@ function makePayload(nfts, collections, marketlogs) {
                 sale_token: marketlog.dataValues.sale_token,
                 status_code: marketlog.dataValues.status_code,
                 buyer_account: marketlog.dataValues.buyer_account,
-                transaction_hash: marketlog.dataValues.transaction_hash,
+                nft_transaction_hash: marketlog.dataValues.nft_transaction_hash,
+                payment_transaction_hash: marketlog.dataValues.payment_transaction_hash,
                 transactedAt: marketlog.dataValues.transactedAt
             }
         });
@@ -105,7 +106,7 @@ function makePayload(nfts, collections, marketlogs) {
         // 2 : 판매완료된 로그, 4 : 민팅완료된 로그, 5 : 에어드랍 로그 객채들로만 구성된 배열을 따로 만든다.
         const history = marketlogs_payload.filter(marketlog => marketlog.status_code === 2 || marketlog.status_code === 4 || marketlog.status_code === 5);
         
-        // last_price 만들기 // while 과 if 를 써서 return 으로 null 주면서 찾느게 편해서 극시실행함수 사용. 
+        // last_price 만들기 // while 과 if 를 써서 return 으로 null 주면서 찾느게 편해서 즉시실행함수 사용. 
         let last_price = (() => {
             // history가 없으면 null
             if (history.length === 0) {

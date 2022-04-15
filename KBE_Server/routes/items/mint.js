@@ -50,7 +50,8 @@ module.exports = async (req, res) => {
             sale_token: data.saleToken,
             status_code: 3,
             buyer_account: null,
-            transaction_hash: null,
+            nft_transaction_hash: null,
+            payment_transaction_hash: null,
             transactedAt: null
         });
     } catch (err) {
