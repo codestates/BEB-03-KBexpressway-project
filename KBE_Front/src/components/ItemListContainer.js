@@ -3,6 +3,12 @@ import Item from "./Item.js";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import styled from "styled-components";
+
+const Alert = styled.div`
+  margin-top: 20rem;
+  text-align: center;
+`;
 
 function ItemListContainer({ collectionId, opt }) {
   const walletAddr = useSelector((state) => state.walletReducer).walletAddr;
@@ -36,12 +42,10 @@ function ItemListContainer({ collectionId, opt }) {
   return (
     <div className="container">
       <div className="row gy-4 portfolio-container">
-        {/* {console.log(nftList)} */}
         {nftList.length === 0 ? (
-          <div>검색 결과가 없습니다</div>
+          <Alert>검색 결과가 없습니다</Alert>
         ) : (
           nftList.map((nft) => {
-            //
             return <Item nft={nft} />;
           })
         )}

@@ -1,5 +1,4 @@
 import React, { memo, useState } from "react";
-import FileUploader from "../components/FileUploader";
 import "./Create.css";
 import collectionData from "../data/collectionData.json";
 import { Link } from "react-router-dom";
@@ -145,10 +144,9 @@ const Create = memo(() => {
                   <input
                     type="file"
                     id="upload"
-                    className="image-upload"
+                    className="form-control"
                     onChange={handleFileInput}
                   />
-                  <FileUploader />
                 </div>
                 <div className="col-md-12">
                   <h4 align="left">Name</h4>
@@ -218,14 +216,14 @@ const Create = memo(() => {
                 <div className="col-md-12 text-center">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-link"
                     onClick={addProperty}
                   >
                     <i class="bi bi-plus" />
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-link"
                     onClick={delProperty}
                   >
                     삭제
