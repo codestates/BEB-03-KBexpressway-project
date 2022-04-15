@@ -11,7 +11,7 @@ module.exports = {
       collections_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'collections',
+          model: 'Collections',
           key: 'id',
         },
         onDelete: 'RESTRICT',

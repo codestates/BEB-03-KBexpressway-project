@@ -15,7 +15,9 @@ module.exports = async (req, res) => {
                 {buyer_account: account}
             ]},
             { [Op.or]: [
+                {status_code: 1},
                 {status_code: 2},
+                {status_code: 3},
                 {status_code: 4},
                 {status_code: 5}
             ]}

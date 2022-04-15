@@ -11,7 +11,7 @@ module.exports = {
       nft_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'nfts',
+          model: 'Nfts',
           key: 'id',
         },
         onDelete: 'RESTRICT',
