@@ -58,7 +58,7 @@ function ItemDetail({ match, location }) {
         "nftId": nft.id,
         "transactionHash": mintResult.transactionHash,
         "buyerAccount": buyer_account,
-        "onMarketLogId": nft.onMarket
+        "onMarketLogId": nft.onMarketLog.id
     };
     console.log(payload);
     axios.patch(url, payload)
@@ -109,17 +109,18 @@ function ItemDetail({ match, location }) {
                     <li>
                       <strong>Name</strong>: {metadata.name}
                     </li>
-                    {nft.last_price !== null ? (<li>
+                    {nft.last_price !== null || nft.onMarket !== 0 ? (<li>
                       <strong>Price</strong> :
                     {nft.onMarket === 0 ? (nft.last_price) : (`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`)}
                     {/* {`${String(nft.onMarketLog.sale_price)} ${nft.onMarketLog.sale_token}`} */}
                     </li>) : null}
                     <li>
-                        {(nft.onMarket === 1 || nft.onMarket === 3) && nft.creater_account !== buyer_account && walletAddr !== '' ?  (
-                        <button className="btn btn-primary" onClick={handleBuy}>
+                        {(nft.onMarket === 1 || nft.onMarket === 3) && nft.creater_account !== buyer_account ?  (
+                        walletAddr === '' ? (<Link to="/wallet"><button className="btn btn-primary">로그인하러 가기</button></Link>) :
+                        (<button className="btn btn-primary" onClick={handleBuy}>
                           Buy now
-                        </button>
-                      ) : null}
+                        </button>)
+                      ) : <p>판매중이 아닙니다.</p>}
                       {/* <button className="btn btn-primary" >Buy now</button> */}
                     </li>
                   </ul>
