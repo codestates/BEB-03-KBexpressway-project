@@ -30,8 +30,9 @@ function ItemListContainer({ collectionId, opt }) {
           setNftList(nftData);
         } else if (opt === "ownerAccount") {
           let nftData = allNftList.filter((nft) => {
-            return nft.owner_Account === walletAddr;
+            return nft.owner_account === walletAddr;
           });
+
           setNftList(nftData);
         }
       });
@@ -41,6 +42,7 @@ function ItemListContainer({ collectionId, opt }) {
 
   return (
     <div className="container">
+      {console.log(nftList)}
       <div className="row gy-4 portfolio-container">
         {nftList.length === 0 ? (
           <Alert>검색 결과가 없습니다</Alert>
